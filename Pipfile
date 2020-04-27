@@ -10,8 +10,14 @@ whitenoise = "==4.0"
 dj-database-url = "*"
 psycopg2-binary = "*"
 django = "==2.2"
+djoser = "*"
+braintree = "*"
+djangorestframework-simplejwt = "*"
+pillow = "*"
 
 [dev-packages]
+python-dotenv = "*"
+autopep8 = "*"
 
 [requires]
 python_version = "3.7"
