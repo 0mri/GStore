@@ -117,7 +117,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import axios from 'axios'
+import paymentService from '@/services/paymentService'
 export default {
   data() {
     return {
@@ -171,8 +171,8 @@ export default {
     },
     checkOut() {
       this.checkOutLoading = true
-      axios
-        .get('api/payment/checkout/new')
+      paymentService
+        .checkout()
         .then(({ data }) => {
           this.$router.push({
             name: 'checkout',

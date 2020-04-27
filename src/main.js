@@ -10,6 +10,7 @@ import VueAxios from 'vue-axios'
 // import VueSocialauth from 'vue-social-auth'
 import VueScrollReveal from 'vue-scroll-reveal'
 
+import api from '@/services/api'
 // Using ScrollReveal's default configuration
 Vue.use(VueScrollReveal, {
   class: 'v-scroll-reveal', // A CSS class applied to elements with the v-scroll-reveal directive; useful for animation overrides.
@@ -77,83 +78,16 @@ router.beforeEach((to, from, next) => {
   } else next()
 })
 
-// let isRefreshing = false
-// let subscribers = []
-
-// axios.interceptors.response.use(undefined, err => {
-//   const {
-//     config,
-//     response: { status, data }
-//   } = err
-
-//   const originalRequest = config
-
-//   if (data.message === 'Token is invalid or expired') {
-//     router.push({ name: '/' })
-//     return Promise.reject(false)
-//   }
-
-//   if (originalRequest.url.includes('login_check')) {
-//     return Promise.reject(err)
-//   }
-
-//   if (config && status === 401) {
-//     if (!isRefreshing) {
-//       isRefreshing = true
-//       store
-//         .dispatch('auth/refreshToken')
-//         .then(({ status }) => {
-//           if (status === 200 || status == 204) {
-//             isRefreshing = false
-//           }
-//           subscribers = []
-//         })
-//         .catch(error => {
-//           console.error(error)
-//         })
-//     }
-//   }
-
-//   const requestSubscribers = new Promise(resolve => {
-//     subscribeTokenRefresh(() => {
-//       resolve(axios(originalRequest))
-//     })
-//   })
-
-//   onRefreshed()
-
-//   return requestSubscribers
-// })
-
-// function subscribeTokenRefresh(cb) {
-//   subscribers.push(cb)
-// }
-
-// function onRefreshed() {
-//   subscribers.map(cb => cb())
-// }
-
-// subscribers = []
-
-axios.create({
-  baseURL: '/api',
-  timeout: 5000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-})
-
-
 if (store.getters['auth/loggedIn'])
-  axios.defaults.headers.common['Authorization'] =
+  api.defaults.headers.common['Authorization'] =
     'Bearer ' + store.getters['auth/accessToken']
 
-axios.interceptors.response.use(undefined, async (error) => {
+api.interceptors.response.use(undefined, async (error) => {
   const originalRequest = error.config
   if (error.response.status === 401 && !originalRequest._retry) {
     originalRequest._retry = true
     return await store.dispatch('auth/refreshToken').then(() => {
-      return axios(originalRequest)
+      return api(originalRequest)
     })
     // .catch((err) => {
     //   store.dispatch('auth/logoutUser').then(() => {

@@ -1,6 +1,5 @@
 <template>
-  <section class="columns is-gapless">
-    <div class="column card">
+  <section class="section">
       <b-table
         :data="false ? [] : orders"
         :striped="true"
@@ -69,7 +68,6 @@
           </section>
         </template>
       </b-table>
-    </div>
 
     <!-- <div v-if="orders.length" class="">
       <div class="columns is-centered">

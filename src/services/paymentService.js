@@ -10,4 +10,10 @@ export default {
       .then((response) => response)
       .catch((error) => error)
   },
+  checkout() {
+    return api
+      .get('payment/checkout/new')
+      .then((response) => response)
+      .catch((err) => err)
+  },
 }
