@@ -1,5 +1,5 @@
 from django.urls import path, include
-# from account.api.views import token_obtain_pair
+from backend.account.api.views import token_obtain_pair
 
 urlpatterns = [
     # comments
@@ -7,7 +7,7 @@ urlpatterns = [
 
     # authentication
     path('auth/', include('djoser.urls')),
-    # path('auth/jwt/create', token_obtain_pair, name='token_create'),
+    path('auth/jwt/create', token_obtain_pair, name='token_create'),
     path('auth/', include('djoser.urls.jwt')),
     # # order
     path('', include('backend.api.order.api.urls')),

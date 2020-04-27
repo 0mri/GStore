@@ -1,0 +1,191 @@
+<template>
+  <section class="section">
+    <div v-if="cart.length" class="columns">
+      <div class="column is-9">
+        <div class="columns is-multiline">
+          <div v-for="product in cart" :key="product.id" class="column is-12">
+            <div class="box">
+              <article class="media">
+                <figure class="media-left">
+                  <p class="image is-96x96">
+                    <img
+                      src="https://bulma.io/images/placeholders/128x128.png"
+                    />
+                  </p>
+                </figure>
+                <div class="media-content">
+                  <div class="content">
+                    <p>
+                      <span class="title is-5">{{ product.product_name }}</span>
+                      <br />
+
+                      <span class="subtitle">{{ product.product_price }}$</span>
+                      <br />
+                      <span class="subtitle">QTY: {{ product.quantity }}</span>
+                      <br /><br />
+                      <small>Free Shipping</small>
+                    </p>
+                  </div>
+                </div>
+                <div class="media-right">
+                  <b-field>
+                    <a
+                      @click.prevent="removeItem(product)"
+                      class="has-text-danger"
+                    >
+                      <b-icon
+                        size="is-small"
+                        pack="fas"
+                        icon="trash-alt"
+                      ></b-icon>
+                    </a>
+                  </b-field>
+                  <!-- <b-field>
+                  <b-numberinput
+                    min="1"
+                    max="10"
+                    v-model="qty"
+                    type="is-primary is-outlined"
+                    size="is-small"
+                    :editable="false"
+                  ></b-numberinput>
+                </b-field> -->
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column is-3">
+        <div class="box">
+          <div class="title is-4">
+            Order Summary
+          </div>
+          <div class="field">
+            <div class="level is-mobile">
+              <div class="level-left">
+                <div class="level-item">
+                  <small>Subtotal</small>
+                </div>
+              </div>
+              <div class="level-right">
+                <div class="level-item">
+                  <span>USD ${{ sumItems }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="level is-mobile">
+              <div class="level-left">
+                <div class="level-item">
+                  <small>Shipping</small>
+                </div>
+              </div>
+              <div class="level-right">
+                <div class="level-item">
+                  <span>USD $0.00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <b-field>
+            <b-button
+              @click="checkOut"
+              :loading="checkOutLoading"
+              type="is-primary is-fullwidth"
+              >Checkout</b-button
+            >
+          </b-field>
+        </div>
+      </div>
+    </div>
+    <section v-else class="section content has-text-grey has-text-centered">
+      <p>
+        <b-icon icon="emoticon-sad" size="is-large"> </b-icon>
+      </p>
+      <p>Your Shopping Cart is empty</p>
+      <b-button
+        tag="router-link"
+        :to="{ name: 'products', params: { category: 'all' } }"
+        type="is-success"
+        >Start Shopping</b-button
+      >
+    </section>
+  </section>
+</template>
+
+<script>
+import { mapState, mapGetters } from 'vuex'
+import axios from 'axios'
+export default {
+  data() {
+    return {
+      isHoverable: true,
+      checkOutLoading: false,
+      isComponentModalActive: false,
+    }
+  },
+  components: {},
+  computed: {
+    ...mapState({
+      cart: (state) => state.cart.items,
+    }),
+    ...mapGetters('cart', ['sumItems']),
+  },
+  created() {
+    // console.log(this.cart)
+  },
+  methods: {
+    removeItem(product) {
+      this.$buefy.dialog.confirm({
+        message:
+          '<strong class="title is-5">Are you sure about this? </strong> </br> This action will remove this item from your shopping cart.',
+        onConfirm: () => this.$store.dispatch('cart/removeFromCart', product),
+      })
+    },
+    orderCart() {
+      this.isLoading = true
+      this.$store
+        .dispatch('cart/orderCart')
+        .then(() => {
+          this.$router.push('orders/')
+          this.$buefy.notification.open({
+            message: 'Your order has been created',
+            position: 'is-top',
+            type: 'is-success',
+            duration: 5000,
+          })
+        })
+        .catch(() => {
+          this.$buefy.notification.open({
+            message: 'An error occurred',
+            position: 'is-top',
+            type: 'is-danger',
+            duration: 5000,
+          })
+        })
+        .finally(() => {
+          this.isLoading = false
+        })
+    },
+    checkOut() {
+      this.checkOutLoading = true
+      axios
+        .get('api/payment/checkout/new')
+        .then(({ data }) => {
+          this.$router.push({
+            name: 'checkout',
+            params: { token: data.token },
+          })
+        })
+        .catch(() => {})
+        .finally(() => {
+          this.checkOutLoading = false
+        })
+    },
+  },
+}
+</script>
+
+<style></style>

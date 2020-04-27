@@ -2,7 +2,6 @@ from datetime import timedelta
 import os
 
 
-
 THITD_PARTY_APPS = [
     'rest_framework',
     'djoser',
