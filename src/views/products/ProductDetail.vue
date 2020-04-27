@@ -4,7 +4,7 @@
     <div class="columns is-hidden-mobile">
       <div class="column"></div>
     </div>
-    <div v-if="loading" class="columns is-vcentered is-gapless">
+    <div v-show="loading" class="columns is-vcentered is-gapless">
       <div class="column">
         <div class="box">
           <div class="columns is-gapless">
@@ -94,7 +94,7 @@
         </div>
       </div>
     </div>
-    <div v-else class="columns is-vcentered is-gapless">
+    <div v-if="!loading" class="columns is-vcentered is-gapless">
       <div class="column">
         <div class="box">
           <div class="columns is-gapless">
@@ -421,7 +421,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import productService from '@/services/productService'
 export default {
   nema: 'product-detail',

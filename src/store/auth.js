@@ -1,7 +1,7 @@
 // import { axiosBase } from '../api/axios-Base'
 import store from './'
 
-import axios from 'axios'
+import api from '@/services/api'
 const Auth = {
   namespaced: true,
   state: {
@@ -24,26 +24,26 @@ const Auth = {
       localStorage.setItem('refresh_token', refresh)
       state.accessToken = access
       state.refreshToken = refresh
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + access
+      api.defaults.headers.common['Authorization'] = 'Bearer ' + access
     },
     updateAccess(state, access) {
       state.accessToken = access
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + access
+      api.defaults.headers.common['Authorization'] = 'Bearer ' + access
     },
     destroyToken(state) {
       state.accessToken = null
       state.refreshToken = null
       localStorage.removeItem('access_token')
       localStorage.removeItem('refresh_token')
-      axios.defaults.headers.common['Authorization'] = ''
+      api.defaults.headers.common['Authorization'] = ''
     },
   },
   actions: {
     // run the below action to get a new access token on expiration
     refreshToken(context) {
       return new Promise((resolve, reject) => {
-        axios
-          .post('/auth/jwt/refresh/', {
+        api
+          .post('auth/jwt/refresh/', {
             refresh: context.state.refreshToken,
           })
           .then((response) => {
@@ -57,8 +57,8 @@ const Auth = {
     },
     registerUser(context, data) {
       return new Promise((resolve, reject) => {
-        axios
-          .post('api/auth/users/', {
+        api
+          .post('auth/users/', {
             username: data.username,
             password: data.password,
           })
@@ -90,8 +90,8 @@ const Auth = {
     },
     loginUser(context, credentials) {
       return new Promise((resolve, reject) => {
-        axios
-          .post('api/auth/jwt/create', credentials)
+        api
+          .post('auth/jwt/create', credentials)
           .then(({ data }) => {
             context.commit('updateLocalStorage', {
               access: data.access,

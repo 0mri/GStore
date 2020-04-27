@@ -8,13 +8,12 @@ import math
 class ProductManager(models.Manager):
     def created_by_cat_id(self, name, cat_id):
         cat = Category.objects.get(id=cat_id)
-        parice = math.floor(random()*200)
+        price = math.floor(random()*200)
         quantity = math.floor(random()*40)
-        return Product.objects.create(category=cat, name=name, price=parice, quantity_avialable=quantity, featured=True)
+        return Product.objects.create(category=cat, name=name, price=price, quantity_avialable=quantity, featured=True)
 
     def all(self, *args, **kwargs):
         return Product.objects.filter(quantity_avialable__gte=1, featured=True)
-
 
 class Product(models.Model):
     category = models.ForeignKey(
