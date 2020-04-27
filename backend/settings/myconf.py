@@ -5,7 +5,6 @@ load_dotenv()
 
 
 
-
 THITD_PARTY_APPS = [
     'rest_framework',
     'djoser',
