@@ -13,5 +13,8 @@ export default {
   components: {
     HelloWorld,
   },
+  beforeCreate() {
+    this.$router.push({ name: 'products', params: { category: 'all' } })
+  },
 }
 </script>

@@ -5,6 +5,14 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/',
+    name: 'home',
+    component: () => import('../views/products/Category.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/login',
     name: 'signin',
     component: () => import('../views/Login.vue'),
@@ -120,7 +128,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   linkActiveClass: 'is-active',
   base: process.env.BASE_URL,
   routes,
