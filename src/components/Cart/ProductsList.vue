@@ -1,13 +1,5 @@
 <template>
   <div>
-    <section v-if="!products.length" class="section">
-      <div class="content has-text-grey has-text-centered">
-        <p>
-          <b-icon icon="emoticon-sad" size="is-large"> </b-icon>
-        </p>
-        <p>There are no products here</p>
-      </div>
-    </section>
     <div class="columns is-gapless is-multiline is-mobile">
       <div
         class="column is-3-desktop is-6-mobile"
@@ -42,4 +34,4 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped></style>

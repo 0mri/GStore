@@ -2,7 +2,9 @@
   <div>
     <div class="im-fullheight-nav">
       <div class="container">
-        <slot />
+        <vue-page-transition name="fade-in-left">
+          <slot />
+        </vue-page-transition>
       </div>
     </div>
   </div>

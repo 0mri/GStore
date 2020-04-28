@@ -1,7 +1,8 @@
 <template>
   <div class="tile is-parent">
-    <div class="tile is-child box">
-             <router-link
+    <div class="tile is-child">
+      <div class="box">
+        <router-link
           :to="{
             name: 'product-detail',
             params: {
@@ -9,24 +10,28 @@
             },
           }"
         >
-
-      <div class="card-image">
-        <figure class="image is-4by3">
-          <img
-            src="@/assets/images/product_image_small.png"
-            alt="Placeholder image"
-          />
-        </figure>
-      </div>
-      <div class="card-content">
-        <div class="media">
-          <div class="">
-            <p class="subtitle is-7">{{ product.name }}</p>
-            <p class="title is-6">{{ product.price }}$</p>
+          <div class="card-image">
+            <figure class="image is-4by3">
+              <img
+                style="border-radius: 6px 6px 0px 0px;"
+                src="@/assets/images/product_image_small.png"
+                alt="Placeholder image"
+              />
+              <div class="quantity-display">
+                <span :class="calcQuantity">{{product.quantity_avialable}}</span>
+              </div>
+            </figure>
           </div>
-        </div>
+          <div class="card-content">
+            <div class="media">
+              <div class="">
+                <p class="subtitle is-7">{{ product.name }}</p>
+                <p class="title is-6">{{ product.price }}$</p>
+              </div>
+            </div>
+          </div>
+        </router-link>
       </div>
-      </router-link>
     </div>
   </div>
 </template>
@@ -52,10 +57,22 @@ export default {
 </script>
 
 <style scoped>
+.tag{
+  border-radius: 6px 0px 0px 0px;
+}
 .box {
   padding: 0;
+  -webkit-box-shadow: 0 2px 3px rgba(10, 10, 10, 0.02),
+    0 0 0 1px rgba(10, 10, 10, 0.05) !important;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.02), 0 0 0 1px rgba(10, 10, 10, 0.05) !important;
 }
+
 .tile.is-parent {
-  padding: 0.5rem;
+  padding: 0.35rem !important;
+}
+.quantity-display{
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 </style>

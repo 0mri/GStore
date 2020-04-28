@@ -4,8 +4,6 @@
     <section class="section">
       <div v-show="!loading" class="columns is-centered">
         <SideBar ref="sidebar" :categories="categories" />
-        <!-- <div class="column is-2-widescreen"> -->
-        <!-- </div> -->
         <div class="container">
           <Products />
         </div>
@@ -39,21 +37,9 @@ export default {
       .finally(() => {
         this.loading = false
       })
-    // axios
-    //   .get('/api/category/')
-    //   .then(({ data }) => {
-    //     this.categories = data
-    //   })
-    //   .finally(() => {
-    //     this.loading = false
-    //   })
   },
   mounted() {},
 }
 </script>
 
-<style>
-.is-fixed {
-  position: fixed;
-}
-</style>
+<style></style>

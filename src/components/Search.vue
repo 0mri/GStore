@@ -1,55 +1,49 @@
 <template>
-  <b-field grouped>
-    <p class="control">
-      <b-button class="is-hidden-mobile" @click="$emit('OpenSideBar')">
-        <b-icon pack="fas" icon="list" type="is-primary" size="is-small">
-        </b-icon>
-      </b-button>
-    </p>
-    <b-autocomplete
-      :data="data"
-      placeholder="Search"
-      field="title"
-      v-model="searchField"
-      :loading="isFetching"
-      :keep-first="false"
-      :clearable="true"
-      :clear-on-select="true"
-      :open-on-focus="true"
-      expanded
-      icon="magnify"
-      @typing="getAsyncData"
-      @select="(option) => selected(option.slug)"
-    >
+    <b-field grouped>
+      <p class="control is-hidden-mobile">
+        <b-button @click="$emit('OpenSideBar')">
+          <b-icon pack="fas" icon="list" type="is-primary" size="is-small">
+          </b-icon>
+        </b-button>
+      </p>
+      <b-autocomplete
+        :data="data"
+        placeholder="Search"
+        field="title"
+        v-model="searchField"
+        :loading="isFetching"
+        :keep-first="false"
+        :clearable="true"
+        :clear-on-select="true"
+        :open-on-focus="true"
+        expanded
+        icon="magnify"
+        @input="(val) => (val.length == 0 ? $emit('clearSearch') : null)"
+        @typing="getAsyncData"
+        @select="(option) => selected(option.slug)"
       >
-      <template slot-scope="props">
-        <div class="media">
-          <div class="media-left">
-            <img width="32" src="@/assets/images/product_image_small.png" />
+        <template slot-scope="props">
+          <div class="media">
+            <div class="media-left">
+              <img width="32" src="@/assets/images/product_image_small.png" />
+            </div>
+            <router-link
+              :to="{
+                name: 'product-detail',
+                params: {
+                  slug: props.option.slug,
+                },
+              }"
+              class="media-content"
+            >
+              {{ props.option.name }}
+              <br />
+              <small> {{ props.option.category.name }} </small>
+            </router-link>
           </div>
-          <router-link
-            :to="{
-              name: 'product-detail',
-              params: {
-                slug: props.option.slug,
-              },
-            }"
-            class="media-content"
-          >
-            {{ props.option.name }}
-            <br />
-            <small> {{ props.option.category.name }} </small>
-          </router-link>
-        </div>
-      </template>
-    </b-autocomplete>
-    <p class="control">
-      <b-button>
-        <b-icon pack="fas" icon="search" type="is-secondary" size="is-small">
-        </b-icon>
-      </b-button>
-    </p>
-  </b-field>
+        </template>
+      </b-autocomplete>
+    </b-field>
 </template>
 
 <script>

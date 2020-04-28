@@ -21,9 +21,7 @@ export default {
     MainSideBar,
     NavBar,
   },
-  mounted() {
-    
-  },
+  mounted() {},
 }
 </script>
 <style lang="scss">

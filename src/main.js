@@ -9,9 +9,14 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 // import VueSocialauth from 'vue-social-auth'
 import VueScrollReveal from 'vue-scroll-reveal'
+import VuePageTransition from 'vue-page-transition'
 
+//API
 import api from '@/services/api'
 // Using ScrollReveal's default configuration
+
+
+
 Vue.use(VueScrollReveal, {
   class: 'v-scroll-reveal', // A CSS class applied to elements with the v-scroll-reveal directive; useful for animation overrides.
   duration: 800,
@@ -51,10 +56,18 @@ Vue.use(VueAxios, axios)
 //   },
 // })
 
+//PAGE TRANSITION
+Vue.use(VuePageTransition)
+
+
 Vue.config.productionTip = false
 
 //Layouts
 Vue.component('default-layout', Default)
+
+
+
+
 
 router.beforeEach((to, from, next) => {
   // if any of the routes in ./router.js has a meta named 'requiresAuth: true'

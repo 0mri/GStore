@@ -1,193 +1,117 @@
 <template>
   <div>
-    <!-- <b-loading :active.sync="loading"></b-loading> -->
+    <b-loading :active.sync="loading"></b-loading>
     <div class="columns is-hidden-mobile">
       <div class="column"></div>
     </div>
-    <div v-show="loading" class="columns is-vcentered is-gapless">
-      <div class="column">
-        <div class="box">
-          <div class="columns is-gapless">
-            <div class="column is-centered is-4">
-              <b-skeleton height="288px"></b-skeleton>
-              <nav class="level is-mobile">
-                <div class="level-item">
-                  <b-skeleton width="49px" height="49px"></b-skeleton>
-                </div>
-                <div class="level-item">
-                  <b-skeleton width="49px" height="49px"></b-skeleton>
-                </div>
-                <div class="level-item">
-                  <b-skeleton width="49px" height="49px"></b-skeleton>
-                </div>
-                <div class="level-item">
-                  <b-skeleton width="49px" height="49px"></b-skeleton>
-                </div>
-                <div class="level-item">
-                  <b-skeleton width="49px" height="49px"></b-skeleton>
-                </div>
-                <div class="level-item">
-                  <b-skeleton width="49px" height="49px"></b-skeleton>
-                </div>
-              </nav>
-            </div>
-            <div class="column">
-              <div class="">
-                <div class="card-content">
-                  <div class="">
-                    <b-skeleton width="100%"></b-skeleton>
-                    <p class="">
-                      <b-skeleton width="80%"></b-skeleton>
-                    </p>
-                    <b-skeleton width="20%"></b-skeleton>
-                  </div>
-                  <br /><br /><br />
-                  <div class="level is-mobile">
-                    <div class="level-left">
-                      <div class="level-item">
-                        <b-skeleton width="50px"></b-skeleton>
-                      </div>
-                    </div>
-                    <div class="level-right">
-                      <div class="level-item">
-                        <b-skeleton width="100px"></b-skeleton>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="level is-mobile">
-                    <div class="level-left">
-                      <div class="level-item">
-                        <b-skeleton width="30px"></b-skeleton>
-                      </div>
-                    </div>
-                    <div class="level-right">
-                      <div class="level-item">
-                        <b-skeleton height="20px" width="20px"></b-skeleton>
-                      </div>
-                      <div class="level-item">
-                        <b-skeleton width="40px"></b-skeleton>
-                      </div>
-                      <div class="level-item">
-                        <b-skeleton height="20px" width="20px"></b-skeleton>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="level is-mobile">
-                    <div class="level-left">
-                      <div class="level-item">
-                        <b-skeleton height="30px" width="30px"></b-skeleton>
-                      </div>
-                    </div>
-                    <div class="level-right">
-                      <div class="level-item">
-                        <b-skeleton height="36px" width="110px"></b-skeleton>
-                      </div>
-                      <div class="level-item">
-                        <b-skeleton height="36px" width="100px"></b-skeleton>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div v-if="error">
+      <section class="section">
+        <div class="content has-text-grey has-text-centered">
+          <p>
+            <b-icon icon-pack="fas" icon="ghost" size="is-large"> </b-icon>
+          </p>
+          <p>This product is not exist or not featured anymore</p>
         </div>
-      </div>
+      </section>
     </div>
-    <div v-if="!loading" class="columns is-vcentered is-gapless">
-      <div class="column">
-        <div class="box">
-          <div class="columns is-gapless">
-            <div class="column is-4">
-              <b-carousel :autoplay="false" :indicator-inside="false">
-                <b-carousel-item v-for="(item, i) in 6" :key="i">
-                  <span class="image">
-                    <img src="@/assets/images/product_image.png" />
-                  </span>
-                </b-carousel-item>
-                <template slot="indicators" slot-scope="props">
-                  <span class="al image">
-                    <img
-                      src="@/assets/images/product_image_small.png"
-                      :title="props.i"
-                    />
-                  </span>
-                </template>
-              </b-carousel>
-            </div>
-            <div class="column">
-              <div class="">
-                <div class="card-content">
-                  <div class="media">
-                    <div class="">
-                      <strong class="title is-4">{{ product.name }}</strong>
-                      <p class="">
-                        <small class="substitle is-7">
-                          <router-link
-                            class=""
-                            :to="{
-                              name: 'products',
-                              params: {
-                                category: product.category.slug,
-                              },
-                            }"
-                          >
-                            {{ product.category.name }}</router-link
-                          >
-                        </small>
-                      </p>
-                      <b-taglist>
-                        <b-tag ellipsis type="is-info">first</b-tag>
-                        <b-tag type="is-info">second</b-tag>
-                        <b-tag type="is-info">third</b-tag>
-                        <b-tag type="is-info">fourth</b-tag>
-                      </b-taglist>
-                      <span class="rate">
-                        <b-rate
-                          v-model="rate"
-                          icon-pack="mdi"
-                          :show-score="true"
-                          :disabled="true"
-                        >
-                        </b-rate>
+    <div v-else>
+      <div class="columns is-vcentered is-gapless">
+        <div class="column">
+          <div class="box">
+            <transition name="fade">
+              <div v-if="!loading" class="columns is-gapless">
+                <div class="column is-4">
+                  <b-carousel :autoplay="false" :indicator-inside="false">
+                    <b-carousel-item v-for="(item, i) in 6" :key="i">
+                      <span class="image">
+                        <img src="@/assets/images/product_image.png" />
                       </span>
-                    </div>
-                  </div>
+                    </b-carousel-item>
+                    <template slot="indicators" slot-scope="props">
+                      <span class="al image">
+                        <img
+                          src="@/assets/images/product_image_small.png"
+                          :title="props.i"
+                        />
+                      </span>
+                    </template>
+                  </b-carousel>
+                </div>
+                <div class="column">
+                  <div class="">
+                    <div class="card-content">
+                      <div class="media">
+                        <div class="">
+                          <strong class="title is-5">{{ product.name }}</strong>
+                          <p class="">
+                            <small class="substitle is-6">
+                              <router-link
+                                class="rate"
+                                :to="{
+                                  name: 'products',
+                                  params: {
+                                    category: product.category.slug,
+                                  },
+                                }"
+                              >
+                                {{ product.category.name }}</router-link
+                              >
+                            </small>
+                          </p>
+                          <span class="rate">
+                            <b-taglist>
+                              <b-tag ellipsis type="is-info">first</b-tag>
+                              <b-tag type="is-info">second</b-tag>
+                              <b-tag type="is-info">third</b-tag>
+                              <b-tag type="is-info">fourth</b-tag>
+                            </b-taglist>
+                          </span>
+                          <!-- <span class="rate">
+                          <b-rate
+                            v-model="rate"
+                            icon-pack="mdi"
+                            :show-score="true"
+                            :disabled="true"
+                          >
+                          </b-rate>
+                        </span> -->
+                        </div>
+                      </div>
 
-                  <div class="level is-mobile">
-                    <div class="level-left">
-                      <div class="level-item">
-                        <span class="has-text-grey">Price:</span>
+                      <div class="level is-mobile">
+                        <div class="level-left">
+                          <div class="level-item">
+                            <span class="has-text-grey">Price:</span>
+                          </div>
+                        </div>
+                        <div class="level-right">
+                          <div class="level-item">
+                            <span class="title is-4 has-text-secondary "
+                              >{{ product.price }}$</span
+                            >
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="level-right">
-                      <div class="level-item">
-                        <span class="title is-3 has-text-primary "
-                          >{{ product.price }}$</span
-                        >
+                      <div class="level is-mobile">
+                        <div class="level-left">
+                          <div class="level-item">
+                            <span class="has-text-grey">QTY:</span>
+                          </div>
+                        </div>
+                        <div class="level-right">
+                          <div class="level-item">
+                            <b-numberinput
+                              min="1"
+                              max="10"
+                              v-model="qty"
+                              type="is-primary is-outlined"
+                              size="is-small"
+                              :editable="false"
+                            ></b-numberinput>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div class="level is-mobile">
-                    <div class="level-left">
-                      <div class="level-item">
-                        <span class="has-text-grey">QTY:</span>
-                      </div>
-                    </div>
-                    <div class="level-right">
-                      <div class="level-item">
-                        <b-numberinput
-                          min="1"
-                          max="10"
-                          v-model="qty"
-                          type="is-primary is-outlined"
-                          size="is-small"
-                          :editable="false"
-                        ></b-numberinput>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- <div class="level is-mobile">
+                      <!-- <div class="level is-mobile">
                   <div class="level-left">
                     <div class="level-item">
                       <span class="has-text-grey">Color:</span>
@@ -221,51 +145,55 @@
                     </div>
                   </div>
                 </div> -->
-                  <div class="level is-mobile">
-                    <div class="level-left">
-                      <a @click="setFocus" class="level-item">
-                        <span class="icon has-text-primary"
-                          ><i class="fas fa-reply"></i
-                        ></span>
-                      </a>
-                    </div>
-                    <div class="level-right">
-                      <div class="level-item ">
-                        <!-- <b-button
+                      <div class="level is-mobile">
+                        <div class="level-left">
+                          <a @click="setFocus" class="level-item">
+                            <span class="icon has-text-primary"
+                              ><i class="fas fa-reply"></i
+                            ></span>
+                          </a>
+                        </div>
+                        <div class="level-right">
+                          <div class="level-item ">
+                            <!-- <b-button
                         @click="addToCart(product)"
                         type="is-primary cart-btn"
                         >Add to Cart</b-button
                       > -->
-                        <b-button
-                          @click="addToCart(product, qty)"
-                          ref="CartBtn"
-                          type="is-primary cart-btn"
-                        >
-                          <span>Add to cart</span>
-                          <div class="cart">
-                            <svg viewBox="0 0 36 26">
-                              <polyline
-                                points="1 2.5 6 2.5 10 18.5 25.5 18.5 28.5 7.5 7.5 7.5"
-                              ></polyline>
-                              <polyline
-                                points="15 13.5 17 15.5 22 10.5"
-                              ></polyline>
-                            </svg>
+                            <b-button
+                              @click="addToCart(product, qty)"
+                              ref="CartBtn"
+                              type="is-primary cart-btn"
+                            >
+                              <span>Add to cart</span>
+                              <div class="cart">
+                                <svg viewBox="0 0 36 26">
+                                  <polyline
+                                    points="1 2.5 6 2.5 10 18.5 25.5 18.5 28.5 7.5 7.5 7.5"
+                                  ></polyline>
+                                  <polyline
+                                    points="15 13.5 17 15.5 22 10.5"
+                                  ></polyline>
+                                </svg>
+                              </div>
+                            </b-button>
                           </div>
-                        </b-button>
+                          <div class="level-item">
+                            <b-button
+                              disabled
+                              tag="router-link"
+                              :to="{
+                                name: 'cart',
+                                params: { singleProduct: product },
+                              }"
+                              type="is-primary is-outlined"
+                              >Buy Now</b-button
+                            >
+                          </div>
+                        </div>
                       </div>
-                      <div class="level-item">
-                        <b-button
-                          tag="router-link"
-                          :to="{ name: 'cart' }"
-                          type="is-primary is-outlined"
-                          >Buy Now</b-button
-                        >
-                      </div>
-                    </div>
-                  </div>
 
-                  <!-- <div class="media">
+                      <!-- <div class="media">
                     <div class="media-content">
                       <p class="subtitle is-6">Price:</p>
                     </div>
@@ -277,144 +205,239 @@
                       </div>
                     </div>
                   </div> -->
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+
+              <div v-if="loading" class="columns is-gapless">
+                <div class="column is-centered is-4">
+                  <figure class="is-4by3">
+                    <b-skeleton height="275px"></b-skeleton>
+                  </figure>
+                  <nav class="level is-mobile">
+                    <div class="level-item">
+                      <b-skeleton width="49px" height="49px"></b-skeleton>
+                    </div>
+                    <div class="level-item">
+                      <b-skeleton width="49px" height="49px"></b-skeleton>
+                    </div>
+                    <div class="level-item">
+                      <b-skeleton width="49px" height="49px"></b-skeleton>
+                    </div>
+                    <div class="level-item">
+                      <b-skeleton width="49px" height="49px"></b-skeleton>
+                    </div>
+                    <div class="level-item">
+                      <b-skeleton width="49px" height="49px"></b-skeleton>
+                    </div>
+                    <div class="level-item">
+                      <b-skeleton width="49px" height="49px"></b-skeleton>
+                    </div>
+                  </nav>
+                </div>
+                <div class="column">
+                  <div class="">
+                    <div class="card-content">
+                      <div class="">
+                        <b-skeleton width="100%"></b-skeleton>
+                        <p class="">
+                          <b-skeleton width="80%"></b-skeleton>
+                        </p>
+                        <b-skeleton width="20%"></b-skeleton>
+                      </div>
+                      <br /><br /><br />
+                      <div class="level is-mobile">
+                        <div class="level-left">
+                          <div class="level-item">
+                            <b-skeleton width="50px"></b-skeleton>
+                          </div>
+                        </div>
+                        <div class="level-right">
+                          <div class="level-item">
+                            <b-skeleton width="100px"></b-skeleton>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="level is-mobile">
+                        <div class="level-left">
+                          <div class="level-item">
+                            <b-skeleton width="30px"></b-skeleton>
+                          </div>
+                        </div>
+                        <div class="level-right">
+                          <div class="level-item">
+                            <b-skeleton height="20px" width="20px"></b-skeleton>
+                          </div>
+                          <div class="level-item">
+                            <b-skeleton width="40px"></b-skeleton>
+                          </div>
+                          <div class="level-item">
+                            <b-skeleton height="20px" width="20px"></b-skeleton>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="level is-mobile">
+                        <div class="level-left">
+                          <div class="level-item">
+                            <b-skeleton height="30px" width="30px"></b-skeleton>
+                          </div>
+                        </div>
+                        <div class="level-right">
+                          <div class="level-item">
+                            <b-skeleton
+                              height="36px"
+                              width="110px"
+                            ></b-skeleton>
+                          </div>
+                          <div class="level-item">
+                            <b-skeleton
+                              height="36px"
+                              width="100px"
+                            ></b-skeleton>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </transition>
           </div>
         </div>
       </div>
-    </div>
-    <div class="column box">
-      <div class="card-content">
-        <div v-if="(product.comments || []).length === 0">
-          <article class="media">
-            <div class="media-content">
-              <div class="content">
-                <p>
-                  <strong>No comments </strong>
-                  <small>be the first one who comment</small>
-                </p>
-              </div>
-            </div>
-          </article>
-        </div>
-        <article
-          v-else
-          v-for="(comment, index) in product.comments"
-          :key="comment.id"
-          class="media"
-        >
-          <figure class="media-left">
-            <p class="image is-48x48">
-              <img
-                class="is-rounded"
-                src="@/assets/images/product_image_small.png"
-              />
-            </p>
-          </figure>
-          <div class="media-content">
-            <div class="content">
-              <p>
-                <strong>{{ comment.user }}</strong>
-                <br />
-                <small>
-                  {{ comment.content }}
-                </small>
-                <br />
-                <small>
-                  <a
-                    @click="
-                      isOpen == comment.id
-                        ? (isOpen = false)
-                        : (isOpen = comment.id)
-                    "
-                    >Reply</a
-                  >
-                  ·
-                  <span class="has-text-grey">{{
-                    comment.created_at
-                  }}</span></small
-                >
-              </p>
-            </div>
-            <b-collapse
-              slot="trigger"
-              :open="isOpen == comment.id"
-              @open="isOpen = comment.id"
-              animation="slide"
-            >
-              <form @submit.prevent="PostComment(comment.id, reply, index)">
-                <b-field>
-                  <b-input v-model="reply" placeholder="Write your reply">
-                  </b-input>
-                  <span class="control">
-                    <b-button
-                      native-type="submit"
-                      icon-left="send"
-                      class="is-primary"
-                    >
-                    </b-button>
-                  </span>
-                </b-field>
-              </form>
-            </b-collapse>
-            <article
-              v-for="reply in comment.replies"
-              :key="reply.id"
-              class="media"
-            >
-              <figure class="media-left">
-                <p class="image is-48x48">
-                  <img
-                    class="is-rounded"
-                    src="@/assets/images/product_image_small.png"
-                  />
-                </p>
-              </figure>
+      <div class="column box">
+        <div class="card-content">
+          <div v-if="(product.comments || []).length === 0">
+            <article class="media">
               <div class="media-content">
                 <div class="content">
                   <p>
-                    <strong>{{ reply.user }}</strong>
-                    <br />
-                    {{ reply.content }}
-                    <br />
-                    <small
-                      ><span class="has-text-grey">{{
-                        reply.created_at
-                      }}</span></small
-                    >
+                    <strong>No comments </strong>
+                    <small>be the first one who comment</small>
                   </p>
                 </div>
               </div>
             </article>
           </div>
-        </article>
-
-        <article class="media">
-          <div class="media-content">
-            <form @submit.prevent="PostComment(null, comment)">
-              <b-field>
-                <b-input
-                  placeholder="Write your comment"
-                  ref="comment"
-                  style="width: 100%;"
-                  v-model="comment"
-                >
-                </b-input>
-                <span class="control">
-                  <b-button
-                    native-type="submit"
-                    value="Submit"
-                    icon-left="send"
-                    class="is-primary"
-                    tag="button"
+          <article
+            v-else
+            v-for="(comment, index) in product.comments"
+            :key="comment.id"
+            class="media"
+          >
+            <figure class="media-left">
+              <p class="image is-48x48">
+                <img
+                  class="is-rounded"
+                  src="@/assets/images/product_image_small.png"
+                />
+              </p>
+            </figure>
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  <strong>{{ comment.user }}</strong>
+                  <br />
+                  <small>
+                    {{ comment.content }}
+                  </small>
+                  <br />
+                  <small>
+                    <a
+                      @click="
+                        isOpen == comment.id
+                          ? (isOpen = false)
+                          : (isOpen = comment.id)
+                      "
+                      >Reply</a
+                    >
+                    ·
+                    <span class="has-text-grey">{{
+                      comment.created_at
+                    }}</span></small
                   >
-                  </b-button>
-                </span>
-              </b-field>
-            </form>
-          </div>
-        </article>
+                </p>
+              </div>
+              <b-collapse
+                slot="trigger"
+                :open="isOpen == comment.id"
+                @open="isOpen = comment.id"
+                animation="slide"
+              >
+                <form @submit.prevent="PostComment(comment.id, reply, index)">
+                  <b-field>
+                    <b-input v-model="reply" placeholder="Write your reply">
+                    </b-input>
+                    <span class="control">
+                      <b-button
+                        native-type="submit"
+                        icon-left="send"
+                        class="is-primary"
+                      >
+                      </b-button>
+                    </span>
+                  </b-field>
+                </form>
+              </b-collapse>
+              <article
+                v-for="reply in comment.replies"
+                :key="reply.id"
+                class="media"
+              >
+                <figure class="media-left">
+                  <p class="image is-48x48">
+                    <img
+                      class="is-rounded"
+                      src="@/assets/images/product_image_small.png"
+                    />
+                  </p>
+                </figure>
+                <div class="media-content">
+                  <div class="content">
+                    <p>
+                      <strong>{{ reply.user }}</strong>
+                      <br />
+                      {{ reply.content }}
+                      <br />
+                      <small
+                        ><span class="has-text-grey">{{
+                          reply.created_at
+                        }}</span></small
+                      >
+                    </p>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </article>
+
+          <article class="media">
+            <div class="media-content">
+              <form @submit.prevent="PostComment(null, comment)">
+                <b-field>
+                  <b-input
+                    placeholder="Write your comment"
+                    ref="comment"
+                    style="width: 100%;"
+                    v-model="comment"
+                  >
+                  </b-input>
+                  <span class="control">
+                    <b-button
+                      native-type="submit"
+                      value="Submit"
+                      icon-left="send"
+                      class="is-primary"
+                      tag="button"
+                    >
+                    </b-button>
+                  </span>
+                </b-field>
+              </form>
+            </div>
+          </article>
+        </div>
       </div>
     </div>
   </div>
@@ -434,6 +457,7 @@ export default {
       comment: '',
       reply: '',
       isOpen: '',
+      error: null,
     }
   },
   computed: {
@@ -442,10 +466,17 @@ export default {
     // },
   },
   created() {
-    productService.fetchProduct(this.$route.params.slug).then(({ data }) => {
-      this.product = data
-      this.loading = false
-    })
+    productService
+      .fetchProduct(this.$route.params.slug)
+      .then(({ data }) => {
+        this.product = data
+      })
+      .catch((err) => {
+        if (err.response.status === 404) this.error = err.response.status
+      })
+      .finally(() => {
+        this.loading = false
+      })
   },
   methods: {
     setFocus() {
@@ -529,7 +560,7 @@ export default {
   --tick: var(--background);
   -webkit-appearance: none;
   -webkit-tap-highlight-color: transparent;
-  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  mask-image: -webkit-radial-gradient(white, black);
   overflow: hidden;
   cursor: pointer;
   text-align: center;
@@ -671,5 +702,19 @@ export default {
   }
 }
 
+.fade-enter-active,
+.fade-leave-active {
+  transition-property: opacity;
+  transition-duration: 0.25s;
+}
+
+.fade-enter-active {
+  transition-delay: 0.25s;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
 // Center & dribbble
 </style>

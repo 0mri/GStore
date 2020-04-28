@@ -1,7 +1,7 @@
 <template>
   <div>
-    <b-loading :is-full-page="false" :active.sync="loading"></b-loading>
-    <div class="columns is-centered">
+    <b-loading :active.sync="loading" />
+    <div class="columns is-gapless is-centered">
       <div class="column is-6">
         <search
           @loading="loading = true"
@@ -10,6 +10,7 @@
           @OpenSideBar="
             $parent.$refs.sidebar.open = !$parent.$refs.sidebar.open
           "
+          @clearSearch="serachResults = null"
         />
         <b-button
           @click="$parent.$refs.sidebar.open = !$parent.$refs.sidebar.open"
@@ -21,19 +22,41 @@
         </b-button>
       </div>
     </div>
-
     <div class="columns is-gapless">
       <product-list
         class="column is-12"
         ref="list"
         :total="total"
-        :products="products"
-      />
+        :products="serachResults || products"
+      >
+      </product-list>
+    </div>
+    <div>
+      <section
+        v-if="serachResults != null && serachResults.length == 0"
+        class="section"
+      >
+        <div class="content has-text-grey has-text-centered">
+          <p>
+            <b-icon icon="binoculars" size="is-large"> </b-icon>
+          </p>
+          <p>We couldnt find this product</p>
+        </div>
+      </section>
+      <section v-else-if="!products.length && !serachResults" class="section">
+        <div class="content has-text-grey has-text-centered">
+          <p>
+            <b-icon icon="emoticon-sad" size="is-large"> </b-icon>
+          </p>
+          <p>There are no products here</p>
+        </div>
+      </section>
     </div>
     <div class="columns">
       <div class="column">
         <section class="pagination-section" v-if="products.length">
           <b-pagination
+            v-if="!serachResults"
             :total="total"
             :current.sync="current"
             :range-before="rangeBefore"
@@ -140,6 +163,7 @@ export default {
       size: '',
       isSimple: false,
       isRounded: false,
+      serachResults: null,
     }
   },
   created() {
@@ -148,8 +172,6 @@ export default {
   methods: {
     loadNewContent() {
       this.loading = true
-      // let uri = `api/product/?offset=${this.calcOffset}&limit=${this.perPage}&category=${this.$route.params.category}`
-      
       productService
         .fetchProducts(
           this.calcOffset,
@@ -163,20 +185,9 @@ export default {
         .finally(() => {
           this.loading = false
         })
-
-      // axios
-      //   .get(uri)
-      //   .then(({ data }) => {
-      //     this.total = parseInt(data.count)
-      //     this.products = data.results || data.product
-      //   })
-      //   .finally(() => {
-      //     this.loading = false
-      //   })
     },
     Search(data) {
-      this.total = 8
-      this.products = data.results
+      this.serachResults = data.results
     },
   },
 }

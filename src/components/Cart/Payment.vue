@@ -1,8 +1,8 @@
 <template>
   <div class="columns is-gapless is-centered">
     <div class="column is-6">
-      <b-loading :is-full-page="true" :active.sync="isLoading"> </b-loading>
-      <div v-show="!isLoading">
+      <!-- <b-loading :active.sync="isLoading"> </b-loading> -->
+      <div>
         <div class="box has-text-centered">
           <div id="dropin-container"></div>
           <b-button
