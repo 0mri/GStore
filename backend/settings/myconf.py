@@ -8,6 +8,7 @@ THITD_PARTY_APPS = [
     # my-apps,
     # 'backend.account',
     'backend.api.order',
+        'storages',
     'backend.api.product',
     'backend.api.comment'
 ]
@@ -62,3 +63,9 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(days=1),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
+
+
+# STORAGE
+
+DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
+DROPBOX_OAUTH2_TOKEN = '3ce24guUPuAAAAAAAAAAGNSh-QAdtQzAoYw0mhRhZDaljMgZI_qvCL-5MWlEmTGS'

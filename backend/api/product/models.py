@@ -3,6 +3,9 @@ from django.utils.text import slugify
 from django.db.models.signals import pre_save
 from random import random
 import math
+import uuid
+import os
+from django.utils._os import safe_join
 
 
 class ProductManager(models.Manager):
@@ -15,13 +18,27 @@ class ProductManager(models.Manager):
     def all(self, *args, **kwargs):
         return Product.objects.filter(quantity_avialable__gte=1, featured=True)
 
+
+def path_and_rename(prefix, filename):
+    ext = filename.split('.')[-1]
+    filename = '{}.{}'.format(uuid.uuid4().hex, ext)
+    return (os.path.join(prefix, filename))
+
+
+def get_path_for_my_model_file(instance, filename):
+    # return path_and_rename('mymodelfiles/', filename)
+    return safe_join(filename)
+
+
 class Product(models.Model):
     category = models.ForeignKey(
         'Category', on_delete=models.CASCADE, related_name="product")
     name = models.CharField(max_length=50)
     slug = models.SlugField(unique=True, blank=True)
     description = models.TextField(default=None, blank=True, null=True)
-    photo = models.ImageField(default=None, blank=True)
+    # photo = models.FileField(upload_to='product_image',default=None, blank=True)
+    photo = models.ImageField(
+        upload_to=get_path_for_my_model_file, default=None, blank=True)
     price = models.DecimalField(max_digits=7, decimal_places=2)
     quantity_avialable = models.PositiveIntegerField(default=0)
     featured = models.BooleanField(default=False)
