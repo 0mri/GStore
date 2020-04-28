@@ -26,8 +26,7 @@ def path_and_rename(prefix, filename):
 
 
 def get_path_for_my_model_file(instance, filename):
-    # return path_and_rename('mymodelfiles/', filename)
-    return safe_join(filename)
+    return path_and_rename('product_image/', filename)
 
 
 class Product(models.Model):

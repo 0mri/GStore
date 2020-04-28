@@ -8,7 +8,7 @@ THITD_PARTY_APPS = [
     # my-apps,
     # 'backend.account',
     'backend.api.order',
-        'storages',
+    'storages',
     'backend.api.product',
     'backend.api.comment'
 ]
@@ -66,6 +66,6 @@ SIMPLE_JWT = {
 
 
 # STORAGE
-
+MEDIA_ROOT = 'aws_photos/'
 DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
 DROPBOX_OAUTH2_TOKEN = '3ce24guUPuAAAAAAAAAAGNSh-QAdtQzAoYw0mhRhZDaljMgZI_qvCL-5MWlEmTGS'
