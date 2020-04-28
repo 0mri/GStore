@@ -16,6 +16,7 @@
     "lodash": "^4.17.15",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
+    "vue-page-transition": "^0.2.2",
     "vue-router": "^3.0.1",
     "vue-scroll-reveal": "^1.0.11",
     "vuex": "^3.3.0"
