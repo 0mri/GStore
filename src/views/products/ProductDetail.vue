@@ -21,20 +21,62 @@
             <transition name="fade">
               <div v-if="!loading" class="columns is-gapless">
                 <div class="column is-4">
-                  <b-carousel :autoplay="false" :indicator-inside="false">
-                    <b-carousel-item v-for="(item, i) in 6" :key="i">
-                      <span class="image">
-                        <img src="@/assets/images/product_image.png" />
+                  <b-carousel
+                    v-if="product.images.length"
+                    :autoplay="false"
+                    :indicator-inside="false"
+                  >
+                    <b-carousel-item
+                      v-for="(image, i) in product.images"
+                      :key="i"
+                    >
+                      <span class="image is-5by4">
+                        <v-lazy-image
+                          alt="Placeholder image"
+                          :src="image.image"
+                          :src-placeholder="
+                            `https://i.picsum.photos/id/${i}/300/300.jpg`
+                          "
+                        />
+                        <!-- <v-lazy-image
+                          alt="Placeholder image"
+                          :src="
+                            `https://i.picsum.photos/id/${product.id +
+                              i +
+                              10}/600/400.jpg`
+                          "
+                        /> -->
                       </span>
                     </b-carousel-item>
-                    <template slot="indicators" slot-scope="props">
-                      <span class="al image">
-                        <img
-                          src="@/assets/images/product_image_small.png"
-                          :title="props.i"
+                  </b-carousel>
+                  <b-carousel
+                    v-else
+                    :autoplay="false"
+                    :indicator-inside="false"
+                  >
+                    <b-carousel-item v-for="(item, i) in 4" :key="i">
+                      <span class="image is-5by4">
+                        <v-lazy-image
+                          alt="Placeholder image"
+                          :src="
+                            `https://i.picsum.photos/id/${product.id +
+                              i +
+                              10}/300/300.jpg`
+                          "
+                          :src-placeholder="
+                            `https://i.picsum.photos/id/${i}/300/300.jpg`
+                          "
                         />
+                        <!-- <v-lazy-image
+                          alt="Placeholder image"
+                          :src="
+                            `https://i.picsum.photos/id/${product.id +
+                              i +
+                              10}/600/400.jpg`
+                          "
+                        /> -->
                       </span>
-                    </template>
+                    </b-carousel-item>
                   </b-carousel>
                 </div>
                 <div class="column">
@@ -44,9 +86,8 @@
                         <div class="">
                           <strong class="title is-5">{{ product.name }}</strong>
                           <p class="">
-                            <small class="substitle is-6">
+                            <small class="substitle is-6 rate">
                               <router-link
-                                class="rate"
                                 :to="{
                                   name: 'products',
                                   params: {

@@ -43,9 +43,16 @@
         <article class="media">
           <figure class="media-left">
             <p class="image is-64x64">
-              <img
-                src="https://buefy.org//static/img/placeholder-128x128.png"
+              <v-lazy-image
+                alt="Placeholder image"
+                :src="
+                  `https://i.picsum.photos/id/${props.row.product.id +
+                    10}/128/128.jpg`
+                "
               />
+              <!-- <img
+                src="https://buefy.org//static/img/placeholder-128x128.png"
+              /> -->
             </p>
           </figure>
           <div class="media-content">

@@ -10,17 +10,28 @@
             >
               <div class="media-left">
                 <b-upload
+                  multiple
+                  drag-drop
                   accept="png,jepg,jpg"
                   @input="UploadImage(this)"
                   v-model="profileImage"
-                  class="rounded"
+                  class="upload"
                   type="is-info"
                 >
                   <figure class="image is-128x128">
-                    <img
+                    <!-- <img
                       class="is-rounded"
                       src="https://bulma.io/images/placeholders/96x96.png"
                       alt="Placeholder image"
+                    /> -->
+                    <v-lazy-image
+                      class="is-rounded"
+                      alt="Placeholder image"
+                      :src="
+                        `https://i.picsum.photos/id/${Math.floor(
+                          Math.random() * 1000
+                        )+1}/400/400.jpg`
+                      "
                     />
                   </figure>
                 </b-upload>
@@ -155,7 +166,6 @@ export default {
     }
   },
   mounted() {
-
     this.loading = false
   },
   methods: {
@@ -209,7 +219,10 @@ span {
   right: 1.5rem;
   top: 0.47rem;
 }
-.upload {
-  border-radius: 100px !important;
+</style>
+
+<style>
+.upload .upload-draggable {
+  border-radius: 1000px !important;
 }
 </style>

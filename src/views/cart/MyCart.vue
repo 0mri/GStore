@@ -8,22 +8,41 @@
               <article class="media">
                 <figure class="media-left">
                   <p class="image is-96x96">
-                    <img
-                      src="https://bulma.io/images/placeholders/128x128.png"
+                    <v-lazy-image
+                      alt="Placeholder image"
+                      :src-placeholder="
+                        `https://i.picsum.photos/id/${product.id +
+                          10}/10/10.jpg`
+                      "
+                      :src="
+                        `https://i.picsum.photos/id/${product.id +
+                          10}/500/500.jpg`
+                      "
                     />
+                    <!-- <img
+                      src="https://bulma.io/images/placeholders/128x128.png"
+                    /> -->
                   </p>
                 </figure>
                 <div class="media-content">
                   <div class="content">
                     <p>
-                      <span class="title is-5">{{ product.product_name }}</span>
+                      <span class="title is-5">
+                        <router-link
+                          :to="{
+                            name: 'product-detail',
+                            params: { slug: product.slug },
+                          }"
+                        >{{ product.product_name }}</router-link>
+                        
+                      </span>
                       <br />
 
-                      <span class="subtitle">{{ product.product_price }}$</span>
+                      <span class="subtitle is-6">{{ product.product_price }}$</span>
                       <br />
-                      <span class="subtitle">QTY: {{ product.quantity }}</span>
+                      <span class="subtitle is-6">QTY: {{ product.quantity }}</span>
                       <br /><br />
-                      <small>Free Shipping</small>
+                      <small class="has-text-grey">Free Shipping</small>
                     </p>
                   </div>
                 </div>

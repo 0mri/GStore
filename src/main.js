@@ -10,6 +10,7 @@ import VueAxios from 'vue-axios'
 // import VueSocialauth from 'vue-social-auth'
 import VueScrollReveal from 'vue-scroll-reveal'
 import VuePageTransition from 'vue-page-transition'
+import { VLazyImagePlugin } from "v-lazy-image";
 
 //API
 import api from '@/services/api'
@@ -58,6 +59,10 @@ Vue.use(VueAxios, axios)
 
 //PAGE TRANSITION
 Vue.use(VuePageTransition)
+
+
+//LAZY-LOAD
+Vue.use(VLazyImagePlugin);
 
 
 Vue.config.productionTip = false

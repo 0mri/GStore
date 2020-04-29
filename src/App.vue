@@ -52,4 +52,12 @@ html {
 .input:hover {
   border-color: lighten($primary, 5%) !important;
 }
+
+.v-lazy-image {
+  filter: blur(2px);
+  transition: filter 0.5s;
+}
+.v-lazy-image-loaded {
+  filter: blur(0px);
+}
 </style>

@@ -12,13 +12,30 @@
         >
           <div class="card-image">
             <figure class="image is-4by3">
-              <img
-                style="border-radius: 6px 6px 0px 0px;"
-                src="@/assets/images/product_image_small.png"
+              <v-lazy-image
                 alt="Placeholder image"
+                style="border-radius: 6px 6px 0px 0px;"
+                :src="
+                  product.image.image ||
+                    `https://i.picsum.photos/id/${product.id + 10}/600/400.jpg`
+                "
+                src-placeholder="https://i.picsum.photos/id/5/20/20.jpg"
               />
+              <!-- <v-lazy-image
+                alt="Placeholder image"
+                style="border-radius: 6px 6px 0px 0px;"
+                :src-placeholder="
+                  `https://i.picsum.photos/id/${product.id + 10}/60/40.jpg`
+                "
+                :src="
+                  `https://i.picsum.photos/id/${product.id + 10}/600/400.jpg`
+                "
+              /> -->
+
               <div class="quantity-display">
-                <span :class="calcQuantity">{{product.quantity_avialable}}</span>
+                <span :class="calcQuantity">{{
+                  product.quantity_avialable
+                }}</span>
               </div>
             </figure>
           </div>
@@ -41,6 +58,7 @@ export default {
   props: {
     product: Object,
   },
+  components: {},
   computed: {
     calcQuantity() {
       if (this.product.quantity_avialable < 10) return 'tag is-danger '
@@ -57,7 +75,7 @@ export default {
 </script>
 
 <style scoped>
-.tag{
+.tag {
   border-radius: 6px 0px 0px 0px;
 }
 .box {
@@ -70,7 +88,7 @@ export default {
 .tile.is-parent {
   padding: 0.35rem !important;
 }
-.quantity-display{
+.quantity-display {
   position: absolute;
   bottom: 0;
   right: 0;
