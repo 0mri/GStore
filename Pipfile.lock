@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ed128f0721c59687ca30a60d270954293874baeeab30ca3e48b5cfccc7ea0ddc"
+            "sha256": "c33ecba269a5ecd4151e9a9372c77886570d2fd5770978c42f841c05fa0ec6ae"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,21 @@
         ]
     },
     "default": {
+        "boto3": {
+            "hashes": [
+                "sha256:39ef75f1351d9dce9542c71602bbe4dbae001df1aa5c75bdacea933d60cc1e7f",
+                "sha256:d345f2ba820f022ab45627913cb427b1fa56d7c1f8e19312eee20874ba800007"
+            ],
+            "index": "pypi",
+            "version": "==1.12.48"
+        },
+        "botocore": {
+            "hashes": [
+                "sha256:ef4fa3055421cb95a7bf559e715f8c5f656aca30fafef070eca21b13ca3f0f81",
+                "sha256:f3569216d2f0067a34608e26ae1d0035b84fa29ad68d6c5fd26124a4cc86e8c9"
+            ],
+            "version": "==1.15.48"
+        },
         "braintree": {
             "hashes": [
                 "sha256:25e4b3afc396724ea35afbd6f58e9a3bbe837a97e1ff3cfaa70c3a7eb8b542a5",
@@ -55,9 +70,6 @@
             "version": "==2.2"
         },
         "django-storages": {
-            "extras": [
-                "dropbox"
-            ],
             "hashes": [
                 "sha256:3103991c2ee8cef8a2ff096709973ffe7106183d211a79f22cf855f33533d924",
                 "sha256:a59e9923cbce7068792f75344ed7727021ee4ac20f227cf17297d0d03d141e91"
@@ -96,14 +108,13 @@
             "index": "pypi",
             "version": "==2.0.3"
         },
-        "dropbox": {
+        "docutils": {
             "hashes": [
-                "sha256:761d6b7e2f642d542d4872773b8034d41738d50eae4949fd1af3d6a389e13a01",
-                "sha256:82751efa4c44afd53e20a54e93253d184add1d0fd448c3663b58e7d516cd0ac2",
-                "sha256:ebc28f25ae09610854d4a9c6e9144b62b446eb48f8905f78421945aca1115d8c"
+                "sha256:6c4f696463b79f1fb8ba0c594b63840ebd41f059e92b31957c46b74a4599b6d0",
+                "sha256:9e4d7ecfc600058e07ba661411a2b7de2fd0fafa17d1a7f7361cd47b1175c827",
+                "sha256:a2aeea129088da402665e92e0b25b04b073c04b2dce4ab65caaa38b7ce2e1a99"
             ],
-            "index": "pypi",
-            "version": "==10.1.1"
+            "version": "==0.15.2"
         },
         "gunicorn": {
             "hashes": [
@@ -119,6 +130,13 @@
                 "sha256:a068a21ceac8a4d63dbfd964670474107f541babbd2250d61922f029858365fa"
             ],
             "version": "==2.9"
+        },
+        "jmespath": {
+            "hashes": [
+                "sha256:695cb76fa78a10663425d5b73ddc5714eb711157e52704d69be03b1a02ba4fec",
+                "sha256:cca55c8d153173e21baa59983015ad0daf603f9cb799904ff057bfb8ff8dc2d9"
+            ],
+            "version": "==0.9.5"
         },
         "pillow": {
             "hashes": [
@@ -191,6 +209,13 @@
             ],
             "version": "==1.7.1"
         },
+        "python-dateutil": {
+            "hashes": [
+                "sha256:73ebfe9dbf22e832286dafa60473e4cd239f8592f699aa5adaf10050e6e1823c",
+                "sha256:75bb3f31ea686f1197762692a9ee6a7550b59fc6ca3a1f4b5d7e32fb98e2da2a"
+            ],
+            "version": "==2.8.1"
+        },
         "pytz": {
             "hashes": [
                 "sha256:a494d53b6d39c3c6e44c3bec237336e14305e4f29bbf800b599253057fbb79ed",
@@ -204,6 +229,13 @@
                 "sha256:b3f43d496c6daba4493e7c431722aeb7dbc6288f52a6e04e7b6023b0247817e6"
             ],
             "version": "==2.23.0"
+        },
+        "s3transfer": {
+            "hashes": [
+                "sha256:2482b4259524933a022d59da830f51bd746db62f047d6eb213f2f8855dcb8a13",
+                "sha256:921a37e2aefc64145e7b73d50c71bb4f26f46e4c9f414dc648c6245ff92cf7db"
+            ],
+            "version": "==0.3.3"
         },
         "six": {
             "hashes": [
@@ -224,6 +256,7 @@
                 "sha256:3018294ebefce6572a474f0604c2021e33b3fd8006ecd11d62107a5d2a963527",
                 "sha256:88206b0eb87e6d677d424843ac5209e3fb9d0190d0ee169599165ec25e9d9115"
             ],
+            "markers": "python_version != '3.4'",
             "version": "==1.25.9"
         },
         "whitenoise": {

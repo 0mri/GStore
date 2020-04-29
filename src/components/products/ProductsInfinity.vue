@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="columns is-gapless is-centered">
+    <!-- <div class="columns is-gapless is-centered">
       <div class="column is-6">
         <search
           @loading="loading = true"
@@ -20,13 +20,23 @@
           <b-icon pack="fas" icon="bars"> </b-icon>
         </b-button>
       </div>
+    </div> -->
+    <div class="columns" ref="alan">
+      <div class="column">
+        <product-list ref="list" :products="products">
+        </product-list>
+          <infinite-loading
+            force-use-infinite-wrapper="product-list"
+            slot="append"
+            :distance="1"
+            :forceUseInfiniteWrapper="true"
+            spinner="waveDots"
+            @infinite="infiniteHandler"
+          >
+          </infinite-loading>
+      </div>
     </div>
-
-    <product-list class="" ref="list" :products="serachResults || products">
-    </product-list>
-    <infinite-loading spinner="waveDots" @infinite="infiniteHandler">
-    </infinite-loading>
-    <b-loading :active.sync="loading" />
+    <!-- <b-loading :active.sync="loading" /> -->
   </div>
 </template>
 <script>
@@ -37,10 +47,10 @@ import productService from '@/services/productService'
 
 export default {
   watch: {
-    $route() {
-      this.loading = true
-      // this.loadNewContent()
-    },
+    // $route() {
+    //   this.loading = false
+    //   // this.loadNewContent()
+    // },
   },
   components: {
     ProductList,
@@ -55,7 +65,6 @@ export default {
     return {
       products: [],
       loading: false,
-      serachResults: null,
       perPage: 8,
       page: 1,
     }
@@ -73,6 +82,7 @@ export default {
           this.$route.params.category
         )
         .then(({ data }) => {
+          
           if (data.results.length) {
             this.page += 1
             this.products.push(...data.results)
@@ -80,21 +90,6 @@ export default {
           } else {
             $state.complete()
           }
-        })
-    },
-    loadNewContent() {
-      productService
-        .fetchProducts(
-          this.calcOffset,
-          this.perPage,
-          this.$route.params.category
-        )
-        .then(({ data }) => {
-          this.total = parseInt(data.count)
-          this.products = data.results || data.product
-        })
-        .finally(() => {
-          this.loading = false
         })
     },
   },

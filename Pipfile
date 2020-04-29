@@ -14,8 +14,8 @@ djoser = "*"
 braintree = "*"
 djangorestframework-simplejwt = "*"
 pillow = "*"
-django-storages = {extras = ["dropbox"],version = "*"}
-dropbox = "*"
+django-storages = "*"
+boto3 = "*"
 
 [dev-packages]
 python-dotenv = "*"
