@@ -26,9 +26,7 @@
         <product-list ref="list" :products="products">
         </product-list>
           <infinite-loading
-            force-use-infinite-wrapper="product-list"
-            slot="append"
-            :distance="1"
+            :distance="100"
             :forceUseInfiniteWrapper="true"
             spinner="waveDots"
             @infinite="infiniteHandler"
