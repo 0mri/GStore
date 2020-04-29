@@ -35,7 +35,9 @@
                           alt="Placeholder image"
                           :src="image.image"
                           :src-placeholder="
-                            `https://i.picsum.photos/id/${i}/300/300.jpg`
+                            `https://i.picsum.photos/id/${product.id +
+                              i +
+                              10}/10/10.jpg`
                           "
                         />
                         <!-- <v-lazy-image
@@ -64,7 +66,9 @@
                               10}/300/300.jpg`
                           "
                           :src-placeholder="
-                            `https://i.picsum.photos/id/${i}/300/300.jpg`
+                            `https://i.picsum.photos/id/${product.id +
+                              i +
+                              10}/20/20.jpg`
                           "
                         />
                         <!-- <v-lazy-image
@@ -145,7 +149,7 @@
                               min="1"
                               max="10"
                               v-model="qty"
-                              type="is-primary is-outlined"
+                              type="is-primary"
                               size="is-small"
                               :editable="false"
                             ></b-numberinput>
@@ -563,6 +567,7 @@ export default {
 
         const p = {
           id: product.id,
+          product_slug: product.slug,
           product_name: product.name,
           product_price: product.price,
           product_quantity: this.qty,

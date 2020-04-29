@@ -5,7 +5,8 @@
       <div v-show="!loading" class="columns is-centered">
         <SideBar ref="sidebar" :categories="categories" />
         <div class="container">
-          <Products />
+          <ProductsInfinity v-if="$route.query.infinity" />
+          <Products v-else />
         </div>
       </div>
     </section>
@@ -15,12 +16,14 @@
 <script>
 import SideBar from '@/components/products/CategoriesSideBar'
 import Products from '@/components/products/Products'
+import ProductsInfinity from '@/components/products/ProductsInfinity'
 import categoryService from '@/services/categoryService'
 import axios from 'axios'
 export default {
   components: {
     SideBar,
     Products,
+    ProductsInfinity,
   },
   data() {
     return {

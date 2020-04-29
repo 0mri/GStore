@@ -33,7 +33,7 @@
     </div>
     <div>
       <section
-        v-if="serachResults != null && serachResults.length == 0"
+        v-if="serachResults != null && serachResults.length == 0 && !loading"
         class="section"
       >
         <div class="content has-text-grey has-text-centered">
@@ -43,7 +43,10 @@
           <p>We couldnt find this product</p>
         </div>
       </section>
-      <section v-else-if="!products.length && !serachResults" class="section">
+      <section
+        v-else-if="!products.length && !serachResults && !loading"
+        class="section"
+      >
         <div class="content has-text-grey has-text-centered">
           <p>
             <b-icon icon="emoticon-sad" size="is-large"> </b-icon>

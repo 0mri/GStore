@@ -23,6 +23,20 @@
                       src="https://bulma.io/images/placeholders/128x128.png"
                     /> -->
                   </p>
+                  <p>
+                    <b-field>
+                      <b-numberinput
+                        class="qty-input"
+                        controls-position="compact"
+                        min="1"
+                        max="10"
+                        v-model="product.quantity"
+                        type="is-primary"
+                        size="is-small"
+                        :editable="false"
+                      ></b-numberinput>
+                    </b-field>
+                  </p>
                 </figure>
                 <div class="media-content">
                   <div class="content">
@@ -31,16 +45,20 @@
                         <router-link
                           :to="{
                             name: 'product-detail',
-                            params: { slug: product.slug },
+                            params: { slug: product.product_slug },
                           }"
-                        >{{ product.product_name }}</router-link>
-                        
+                          >{{ product.product_name }}</router-link
+                        >
                       </span>
                       <br />
 
-                      <span class="subtitle is-6">{{ product.product_price }}$</span>
+                      <span class="subtitle is-6"
+                        >{{ product.product_price }}$</span
+                      >
                       <br />
-                      <span class="subtitle is-6">QTY: {{ product.quantity }}</span>
+                      <span class="subtitle is-6"
+                        >QTY: {{ product.quantity }}</span
+                      >
                       <br /><br />
                       <small class="has-text-grey">Free Shipping</small>
                     </p>
@@ -50,7 +68,7 @@
                   <b-field>
                     <a
                       @click.prevent="removeItem(product)"
-                      class="has-text-danger"
+                      class="has-text-secondary"
                     >
                       <b-icon
                         size="is-small"
@@ -59,16 +77,6 @@
                       ></b-icon>
                     </a>
                   </b-field>
-                  <!-- <b-field>
-                  <b-numberinput
-                    min="1"
-                    max="10"
-                    v-model="qty"
-                    type="is-primary is-outlined"
-                    size="is-small"
-                    :editable="false"
-                  ></b-numberinput>
-                </b-field> -->
                 </div>
               </article>
             </div>
@@ -207,4 +215,12 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.qty-input {
+  margin-top: 0.75rem;
+  width: 96px !important;
+}
+/* input {
+  width: 44px !important;
+} */
+</style>

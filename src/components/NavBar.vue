@@ -32,7 +32,28 @@
         <img src="@/assets/logo.png" />
       </b-navbar-item>
     </template>
-    <template slot="start"> </template>
+    <template slot="start">
+      <b-navbar-item
+        v-if="loggedIn"
+        tag="router-link"
+        :to="{ name: 'products', params: { category: 'all' } }"
+      >
+        Products <small>(Pagination)</small>
+      </b-navbar-item>
+      <b-navbar-item
+        v-if="loggedIn"
+        tag="router-link"
+        :to="{
+          name: 'products',
+          params: { category: 'all' },
+          query: {
+            infinity: 'true'
+          },
+        }"
+      >
+        Products <small>(Infinite Scroll)</small>
+      </b-navbar-item>
+    </template>
 
     <template slot="end">
       <b-navbar-item v-if="!loggedIn" tag="div">
