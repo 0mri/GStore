@@ -1,8 +1,14 @@
 from rest_framework import serializers
-from backend.api.product.models import Product, Category
+from backend.api.product.models import Product, Category, ProductImage
 from rest_framework.reverse import reverse
 from django.utils.text import slugify
 from backend.api.comment.api.serializers import CommentSerializer
+
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = ['image']
 
 
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
@@ -11,14 +17,20 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
         view_name='product-detail',
         lookup_field='slug'
     )
+    image = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
-        fields = ['id', 'url', 'slug', 'name','photo', 'category',
+        fields = ['id', 'url', 'slug', 'name', 'image', 'category',
                   'price', 'description', 'quantity_avialable']
 
     # def get_description(self, obj):
     #     return obj.description[:30] + '...' if len(obj.description) > 30 else obj.description
+
+    def get_image(self, obj):
+        image_obj = obj.images.first()
+        serializer = ProductImageSerializer(image_obj)
+        return serializer.data
 
     def category_details(self, obj):
         request = self.context.get('request')
@@ -70,10 +82,11 @@ class DetialedProductSerializer(serializers.ModelSerializer):
 
     # comments = CommentSerializer(many=True, read_only=True)
     comments = serializers.SerializerMethodField()
+    images = ProductImageSerializer(many=True)
 
     class Meta:
         model = Product
-        fields = ['id', 'name', 'slug', 'category', 'description',
+        fields = ['id', 'name', 'slug', 'images', 'category', 'description',
                   'price', 'quantity_avialable', 'comments']
 
     def category_details(self, obj):

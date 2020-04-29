@@ -29,6 +29,13 @@ def get_path_for_my_model_file(instance, filename):
     return path_and_rename('product_image/', filename)
 
 
+class ProductImage(models.Model):
+    product = models.ForeignKey(
+        'Product', on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to=get_path_for_my_model_file,
+                              default=None, blank=True)
+
+
 class Product(models.Model):
     category = models.ForeignKey(
         'Category', on_delete=models.CASCADE, related_name="product")
@@ -36,8 +43,7 @@ class Product(models.Model):
     slug = models.SlugField(unique=True, blank=True)
     description = models.TextField(default=None, blank=True, null=True)
     # photo = models.FileField(upload_to='product_image',default=None, blank=True)
-    photo = models.ImageField(
-        upload_to=get_path_for_my_model_file, default=None, blank=True)
+
     price = models.DecimalField(max_digits=7, decimal_places=2)
     quantity_avialable = models.PositiveIntegerField(default=0)
     featured = models.BooleanField(default=False)
