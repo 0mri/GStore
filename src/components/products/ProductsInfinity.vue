@@ -21,26 +21,17 @@
         </b-button>
       </div>
     </div> -->
-    <div class="columns" ref="alan">
-      <div class="column">
-        <product-list ref="list" :products="products">
-        </product-list>
-          <infinite-loading
-            :distance="100"
-            :forceUseInfiniteWrapper="true"
-            spinner="waveDots"
-            @infinite="infiniteHandler"
-          >
-          </infinite-loading>
-      </div>
-    </div>
+    <products-list :mobileLayOut="12" :products="list" />
+    <infinite-loading @infinite="infiniteHandler">
+      <vue-simple-spinner slot="spinner"></vue-simple-spinner>
+    </infinite-loading>
     <!-- <b-loading :active.sync="loading" /> -->
   </div>
 </template>
 <script>
 import axios from 'axios'
 import Search from '@/components/Search'
-import ProductList from '@/components/Cart/ProductsList'
+import ProductsList from '@/components/Cart/ProductsList'
 import productService from '@/services/productService'
 
 export default {
@@ -51,7 +42,7 @@ export default {
     // },
   },
   components: {
-    ProductList,
+    ProductsList,
     Search,
   },
   computed: {
@@ -61,16 +52,12 @@ export default {
   },
   data() {
     return {
-      products: [],
-      loading: false,
-      perPage: 8,
+      list: [],
+      // loading: false,
+      perPage: 16,
       page: 1,
     }
   },
-  created() {
-    // console.log('2')
-  },
-
   methods: {
     infiniteHandler($state) {
       productService
@@ -80,10 +67,9 @@ export default {
           this.$route.params.category
         )
         .then(({ data }) => {
-          
           if (data.results.length) {
             this.page += 1
-            this.products.push(...data.results)
+            this.list.push(...data.results)
             $state.loaded()
           } else {
             $state.complete()

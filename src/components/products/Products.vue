@@ -1,6 +1,5 @@
 <template>
   <div>
-    <b-loading :active.sync="loading" />
     <div class="columns is-gapless is-centered">
       <div class="column is-6">
         <search
@@ -22,8 +21,12 @@
         </b-button>
       </div>
     </div>
-    <div class="columns is-gapless">
+    <div class="columns is-centered is-gapless">
+      <vue-simple-spinner v-show="loading"></vue-simple-spinner>
       <product-list
+        :mobileLayOut="6"
+        v-show="!loading"
+        :loading="loading"
         class="column is-12"
         ref="list"
         :total="total"
@@ -136,6 +139,9 @@ import axios from 'axios'
 import Search from '@/components/Search'
 import ProductList from '@/components/Cart/ProductsList'
 import productService from '@/services/productService'
+
+// import Spinner from 'vue-simple-spinner'
+
 export default {
   watch: {
     $route() {
@@ -147,6 +153,8 @@ export default {
   components: {
     ProductList,
     Search,
+
+    // Spinner,
   },
   computed: {
     calcOffset() {
@@ -175,6 +183,7 @@ export default {
   methods: {
     loadNewContent() {
       this.loading = true
+      this.products = []
       productService
         .fetchProducts(
           this.calcOffset,

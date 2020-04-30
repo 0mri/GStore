@@ -1,11 +1,10 @@
 <template>
   <div>
-    <b-loading :active.sync="loading"></b-loading>
     <section class="section">
-      <div v-show="!loading" class="columns is-centered">
+      <div v-if="!loading" class="columns is-centered">
         <SideBar ref="sidebar" :categories="categories" />
         <div class="container">
-          <ProductsInfinity v-if="$route.query.infinity" />
+          <ProductsInfinity v-if="$route.query.infinity == 'true'" />
           <Products v-else />
         </div>
       </div>
@@ -28,18 +27,13 @@ export default {
   data() {
     return {
       categories: [],
-      loading: true,
+      loading: false,
     }
   },
   created() {
-    categoryService
-      .fetchCategories()
-      .then(({ data }) => {
-        this.categories = data
-      })
-      .finally(() => {
-        this.loading = false
-      })
+    categoryService.fetchCategories().then(({ data }) => {
+      this.categories = data
+    })
   },
   mounted() {},
 }

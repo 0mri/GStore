@@ -21,6 +21,7 @@
     "vue-page-transition": "^0.2.2",
     "vue-router": "^3.0.1",
     "vue-scroll-reveal": "^1.0.11",
+    "vue-simple-spinner": "^1.2.10",
     "vuex": "^3.3.0"
   },
   "devDependencies": {

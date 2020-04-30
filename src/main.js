@@ -14,6 +14,10 @@ import { VLazyImagePlugin } from 'v-lazy-image'
 
 import InfiniteLoading from 'vue-infinite-loading'
 
+import Spinner from 'vue-simple-spinner'
+
+Vue.component('vue-simple-spinner', Spinner)
+
 Vue.use(InfiniteLoading, {
   props: {
     spinner: 'default',

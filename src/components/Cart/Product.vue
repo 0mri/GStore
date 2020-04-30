@@ -19,7 +19,9 @@
                   product.image.image ||
                     `https://i.picsum.photos/id/${product.id + 10}/600/400.jpg`
                 "
-                src-placeholder="https://i.picsum.photos/id/5/20/20.jpg"
+                :src-placeholder="
+                  `https://i.picsum.photos/id/${product.id + 10}/60/40.jpg`
+                "
               />
               <!-- <v-lazy-image
                 alt="Placeholder image"
