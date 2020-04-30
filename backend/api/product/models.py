@@ -5,7 +5,6 @@ from random import random
 import math
 import uuid
 import os
-from django.utils._os import safe_join
 
 
 class ProductManager(models.Manager):
@@ -22,7 +21,7 @@ class ProductManager(models.Manager):
 def path_and_rename(prefix, filename):
     ext = filename.split('.')[-1]
     filename = '{}.{}'.format(uuid.uuid4().hex, ext)
-    return (os.path.join(prefix, filename))
+    return os.path.join(prefix, filename)
 
 
 def get_path_for_my_model_file(instance, filename):

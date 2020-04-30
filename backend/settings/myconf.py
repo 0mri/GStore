@@ -7,14 +7,14 @@ THITD_PARTY_APPS = [
     'djoser',
     'storages',
     # my-apps,
-    # 'backend.account',
+    'backend.account',
     'backend.api.order',
     'backend.api.product',
     'backend.api.comment'
 ]
 
 
-# AUTH_USER_MODEL = 'account.User'
+AUTH_USER_MODEL = 'account.User'
 
 # SOCIAL AUTH
 AUTHENTICATION_BACKENDS = [
