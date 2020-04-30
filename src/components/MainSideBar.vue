@@ -53,16 +53,32 @@
             ></b-menu-item>
             <b-menu-item
               tag="router-link"
-              :to="{ name: 'products', params: { category: 'all' } }"
-              icon="sitemap"
-              label="Products"
-            ></b-menu-item>
-            <b-menu-item
-              tag="router-link"
               :to="{ name: 'orders' }"
               icon="bag-personal"
               label="My Orders"
             ></b-menu-item>
+            <b-menu-list label="products">
+              <b-menu-item
+                tag="router-link"
+                :to="{ name: 'products', params: { category: 'all' } }"
+                icon="sitemap"
+                label="Products(Pagination)"
+              ></b-menu-item>
+              <b-menu-item
+                v-if="loggedIn"
+                tag="router-link"
+                :to="{
+                  name: 'products',
+                  params: { category: 'all' },
+                  query: {
+                    infinity: 'true',
+                  },
+                }"
+                icon="infinity"
+                label="Products(Infinity)"
+              >
+              </b-menu-item>
+            </b-menu-list>
           </b-menu-list>
           <b-menu-list label="Actions">
             <b-menu-item
