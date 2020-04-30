@@ -27,11 +27,7 @@
                     <v-lazy-image
                       class="is-rounded"
                       alt="Placeholder image"
-                      :src="
-                        `https://i.picsum.photos/id/${Math.floor(
-                          Math.random() * 1000
-                        )+1}/400/400.jpg`
-                      "
+                      :src="user.profile_image"
                     />
                   </figure>
                 </b-upload>
@@ -44,11 +40,17 @@
             <div class="media ahi">
               <div class="field">
                 <strong>ID</strong>
-                <span>1</span>
+                <span>{{ `**` }}</span>
               </div>
               <div class="field">
                 <strong>From</strong>
                 <span>Israel</span>
+              </div>
+              <div class="field">
+                <strong>Member Since</strong>
+                <span>{{
+                  new Date(user.date_joined).toLocaleDateString('en-GB')
+                }}</span>
               </div>
             </div>
           </div>

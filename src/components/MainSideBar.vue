@@ -9,28 +9,32 @@
       :open.sync="open"
     >
       <div class="p-1">
-        <article v-if="loggedIn" class="media">
-          <figure class="media-left">
-            <p class="image is-32x32">
-              <img
-                class="is-rounded"
-                src="@/assets/images/product_image_small.png"
-              />
-            </p>
-          </figure>
-          <div class="media-content">
-            <div class="content">
-              <p>
-                <strong> {{ username }}</strong>
-              </p>
-              <br />
-            </div>
-          </div>
-          <div class="media-right">
-            <button @click="open = false" class="delete"></button>
-          </div>
-        </article>
         <b-menu ref="menu">
+          <article v-if="loggedIn" class="media">
+            <figure class="media-left">
+              <p class="image is-32x32">
+                <router-link :to="{ name: 'about' }">
+                  <img class="is-rounded" :src="user.profile_image" />
+                </router-link>
+              </p>
+            </figure>
+
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  <strong
+                    ><router-link :to="{ name: 'about' }">{{
+                      user.username
+                    }}</router-link>
+                  </strong>
+                </p>
+                <br />
+              </div>
+            </div>
+            <div class="media-right">
+              <button @click="open = false" class="delete"></button>
+            </div>
+          </article>
           <b-menu-list v-if="loggedIn" label="Menu">
             <b-menu-item
               tag="router-link"
@@ -102,7 +106,7 @@ export default {
     }),
     ...mapState({
       numOfItems: (state) => state.cart.items.length,
-      username: (state) => state.User.user.username,
+      user: (state) => state.User.user,
     }),
   },
   methods: {
