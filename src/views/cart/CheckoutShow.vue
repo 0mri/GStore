@@ -1,7 +1,7 @@
 <template>
   <section class="section">
     <div class="columns">
-      <div class="column has-text-centered">
+      <div class="column box has-text-centered">
         <div class="content response">
           <div v-scroll-reveal="{ delay: 50 }" class="icon">
             <img

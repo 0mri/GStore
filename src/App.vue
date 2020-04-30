@@ -60,4 +60,7 @@ html {
 .v-lazy-image-loaded {
   filter: blur(0px);
 }
+.image {
+  object-fit: cover !important;
+}
 </style>

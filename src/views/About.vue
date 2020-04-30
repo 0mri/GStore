@@ -9,29 +9,37 @@
               class="media has-text-centered"
             >
               <div class="media-left">
-                <b-upload
-                  multiple
-                  drag-drop
-                  accept="png,jepg,jpg"
-                  @input="UploadImage(this)"
-                  v-model="profileImage"
-                  class="upload"
-                  type="is-info"
-                >
-                  <figure class="image is-128x128">
-                    <!-- <img
+                <b-field class="file">
+                  <b-upload
+                    accept="jpg,jpeg,png"
+                    @input="UploadImage"
+                    :disabled="profileImage != null"
+                    drag-drop
+                    v-model="profileImage"
+                    class="upload"
+                    type="is-info"
+                  >
+                    <figure class="image">
+                      <!-- <img
                       class="is-rounded"
                       src="https://bulma.io/images/placeholders/96x96.png"
                       alt="Placeholder image"
                     /> -->
-                    <v-lazy-image
-                      class="is-rounded"
-                      alt="Placeholder image"
-                      :src="user.profile_image"
-                    />
-                  </figure>
-                </b-upload>
-
+                      <v-lazy-image
+                        class="is-rounded image is-128x128"
+                        alt="Profile Image"
+                        :src="user.profile_image || ''"
+                      />
+                    </figure>
+                  </b-upload>
+                </b-field>
+                <b-progress
+                  v-if="profileImage != null"
+                  :value="percentage"
+                  show-value
+                  format="percent"
+                ></b-progress>
+                <b-field> </b-field>
                 <p class="title is-4">
                   {{ user.username }}
                 </p>
@@ -148,7 +156,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import api from '@/services/api'
 import { mapState } from 'vuex'
 export default {
   name: 'about',
@@ -158,13 +166,14 @@ export default {
       loading: true,
       editEmail: false,
       editPassword: false,
-      profileImage: Object,
+      profileImage: null,
       new_user: {
         first_name: '',
         last_name: '',
         email: '',
       },
       formLoading: false,
+      percentage: 0,
     }
   },
   mounted() {
@@ -198,8 +207,31 @@ export default {
           this.formLoading = false
         })
     },
-    UploadImage() {
-      // console.log(this.profileImage)
+    async UploadImage(imageFile) {
+      this.percentage = 0
+      const reader = new FileReader()
+      const oldPhoto = this.user.profile_image
+      reader.onload = (e) => {
+        this.user.profile_image = e.target.result
+      }
+      reader.readAsDataURL(this.profileImage)
+
+      this.$store
+        .dispatch('User/updateProfileImage', {
+          imageFile,
+          progress: (progress) => {
+            this.percentage = progress
+          },
+        })
+        .then((response) => {
+          if (response.status != 200) this.user.profile_image = oldPhoto
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+        .finally(() => {
+          this.profileImage = null
+        })
     },
   },
 }
@@ -226,5 +258,9 @@ span {
 <style>
 .upload .upload-draggable {
   border-radius: 1000px !important;
+}
+.upload-draggable.is-info.is-loading::after {
+  position: absolute;
+  top: calc(50% - 1.5rem);
 }
 </style>

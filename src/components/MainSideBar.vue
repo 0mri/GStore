@@ -12,9 +12,12 @@
         <b-menu ref="menu">
           <article v-if="loggedIn" class="media">
             <figure class="media-left">
-              <p class="image is-32x32">
+              <p class="image">
                 <router-link :to="{ name: 'about' }">
-                  <img class="is-rounded" :src="user.profile_image" />
+                  <img
+                    class="is-rounded image is-32x32"
+                    :src="user.profile_image"
+                  />
                 </router-link>
               </p>
             </figure>
