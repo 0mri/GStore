@@ -16,6 +16,13 @@ THITD_PARTY_APPS = [
 
 AUTH_USER_MODEL = 'account.User'
 
+DJOSER = {
+    'SERIALIZERS': {
+        'current_user': 'backend.account.api.serializers.PrivateUserSerilizer',
+        'user': 'backend.account.api.serializers.PrivateUserSerilizer'
+    },
+}
+
 # SOCIAL AUTH
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',

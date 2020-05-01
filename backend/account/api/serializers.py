@@ -1,17 +1,18 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-# from djoser.serializers import UserSerializer
-# from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
+from djoser.serializers import UserSerializer
+from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 from rest_framework import serializers
 from django.conf import settings
 # from backend.account.models import Profile
 from backend.account.models import User
 
 
-class UserSerilizer(serializers.ModelSerializer):
+class PrivateUserSerilizer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name',
                   'last_name', 'date_joined', 'profile_image']
+        read_only_fields = ['username', 'date_joined']
 
     def update_profile_image(self, obj):
         user = self.context.get('request').user
@@ -26,7 +27,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # The default result (access/refresh tokens)
         data = super(MyTokenObtainPairSerializer, self).validate(attrs)
         # Custom data you want to include
-        data.update({'user': UserSerilizer(self.user).data})
+        data.update({'user': PrivateUserSerilizer(self.user).data})
         # and everything else you want to send in the response
         return data
 

@@ -4,7 +4,7 @@ from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from .serializers import UserSerilizer
+from .serializers import PrivateUserSerilizer
 
 
 class ObtainTokenPairWithUserView(TokenObtainPairView):
@@ -18,7 +18,7 @@ class UploadProfileImage(APIView):
     parser_class = [FileUploadParser]
 
     def put(self, request, *args, **kwargs):
-        file_serializer = UserSerilizer(context={'request': request}).update_profile_image(
+        file_serializer = PrivateUserSerilizer(context={'request': request}).update_profile_image(
             request.data)
 
         # print(request.data[])
