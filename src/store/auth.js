@@ -1,14 +1,13 @@
-// import { axiosBase } from '../api/axios-Base'
-import store from './'
-
 import api from '@/services/api'
+import userService from '@/services/userService'
 const Auth = {
   namespaced: true,
   state: {
     accessToken: localStorage.getItem('access_token') || null, // makes sure the user is logged in even after
     // refreshing the page
     refreshToken: localStorage.getItem('refresh_token') || null,
-    // user: localStorage.getItem('user') || null
+
+    user: JSON.parse(localStorage.getItem('user') || '{}'), // makes sure the user is logged in even after
   },
   getters: {
     loggedIn(state) {
@@ -36,6 +35,18 @@ const Auth = {
       localStorage.removeItem('access_token')
       localStorage.removeItem('refresh_token')
       api.defaults.headers.common['Authorization'] = ''
+    },
+    SET_USER(state, payload) {
+      localStorage.setItem('user', JSON.stringify(payload))
+      state.user = payload
+    },
+    DEL_USER(state) {
+      state.user = null
+      localStorage.removeItem('user')
+    },
+    SET_PROFILE_IMAGE(state, image) {
+      state.user.profile_image = image
+      localStorage.setItem('user', JSON.stringify(state.user))
     },
   },
   actions: {
@@ -70,21 +81,8 @@ const Auth = {
       if (context.getters.loggedIn) {
         return new Promise((resolve) => {
           context.commit('destroyToken')
-          store.dispatch('User/deleteUser')
+          context.commit('DEL_USER')
           resolve()
-          // axiosBase
-          //   .post('/auth/jwt/logout/')
-          //   .then(() => {
-          //     localStorage.removeItem('access_token')
-          //     localStorage.removeItem('refresh_token')
-          //     context.commit('destroyToken')
-          //   })
-          //   .catch(err => {
-          //     localStorage.removeItem('access_token')
-          //     localStorage.removeItem('refresh_token')
-          //     context.commit('destroyToken')
-          //     resolve(err)
-          //   })
         })
       }
     },
@@ -98,12 +96,28 @@ const Auth = {
               refresh: data.refresh,
             }) // store the access and refresh token in localstorage
             resolve()
-            store.dispatch('User/setUser', data.user)
+            context.commit('SET_USER', data.user)
           })
           .catch((err) => {
             reject(err)
           })
       })
+    },
+    async updateProfileImage(context, data) {
+      return userService
+        .putImage(
+          data.imageFile,
+          (uploadEvent) =>
+            data.progress(
+              Math.round((uploadEvent.loaded / uploadEvent.total) * 100) - 1
+            ) //percentage loaded
+        )
+        .then((response) => {
+          if (response.status == 200)
+            context.commit('SET_PROFILE_IMAGE', response.data)
+          return response
+        })
+        .catch((err) => err)
     },
   },
 }

@@ -15,4 +15,16 @@ export default {
       .then((response) => response)
       .catch((error) => error)
   },
+  retrieveCurrentUser() {
+    return api
+      .get(`auth/users/me`)
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  retrieveUser(id) {
+    return api
+      .get(`auth/users/me/${id}`)
+      .then((response) => response)
+      .catch((error) => error)
+  },
 }

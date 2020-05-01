@@ -125,7 +125,7 @@ export default {
     }),
     ...mapState({
       numOfItems: (state) => state.cart.items.length,
-      user: (state) => state.User.user,
+      user: (state) => state.auth.user,
     }),
   },
   methods: {

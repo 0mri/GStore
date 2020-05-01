@@ -118,7 +118,7 @@ export default {
     }),
     ...mapState({
       numOfItems: (state) => state.cart.items.length,
-      username: (state) => state.User.user.username,
+      username: (state) => state.auth.user.username,
     }),
   },
   data: () => ({

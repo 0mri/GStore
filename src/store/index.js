@@ -1,10 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Auth from './auth'
-import CartModule from './CartModule'
-import Orders from './cart/orders'
-import UserModule from './UserModule'
-// import { axiosBase } from '../api/axios-Base'
+import CartModule from './modules/CartModule'
+import OrderModule from './modules/OrderModule'
 Vue.use(Vuex)
 
 const localStoragePlugin = (store) => {
@@ -17,9 +15,8 @@ const plugins = [localStoragePlugin]
 export default new Vuex.Store({
   modules: {
     auth: Auth,
-    User: UserModule,
     cart: CartModule,
-    orders: Orders,
+    orders: OrderModule,
   },
   plugins,
 })

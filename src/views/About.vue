@@ -160,7 +160,7 @@ import api from '@/services/api'
 import { mapState } from 'vuex'
 export default {
   name: 'about',
-  computed: mapState('User', ['user']),
+  computed: mapState('auth', ['user']),
   data() {
     return {
       loading: true,
@@ -187,7 +187,7 @@ export default {
           email: this.email,
         })
         .then(({ data }) => {
-          this.$store.dispatch('User/setUser', data)
+          this.$store.dispatch('auth/setUser', data)
           this.editEmail = false
           this.email = ''
           this.$buefy.toast.open({
@@ -217,7 +217,7 @@ export default {
       reader.readAsDataURL(this.profileImage)
 
       this.$store
-        .dispatch('User/updateProfileImage', {
+        .dispatch('auth/updateProfileImage', {
           imageFile,
           progress: (progress) => {
             this.percentage = progress
