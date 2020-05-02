@@ -32,11 +32,15 @@ export default {
     if (!this.token) this.$router.push('/cart')
   },
   methods: {
-    complete(data) {},
+    complete(data) {
+      this.$router.push({
+        name: 'checkout-show',
+        hash: '/#' + data.status,
+        params: { data: data },
+      })
+    },
   },
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

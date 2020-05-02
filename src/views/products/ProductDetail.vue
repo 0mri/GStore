@@ -30,10 +30,10 @@
                       v-for="(image, i) in product.images"
                       :key="i"
                     >
-                      <span class="image is-4by3">
+                      <figure class="image is-4by3">
                         <v-lazy-image
                           class="image"
-                          alt="Placeholder image"
+                          alt="Product Image"
                           :src="image.image"
                           :src-placeholder="
                             `https://i.picsum.photos/id/${product.id +
@@ -49,7 +49,7 @@
                               10}/600/400.jpg`
                           "
                         /> -->
-                      </span>
+                      </figure>
                     </b-carousel-item>
                   </b-carousel>
                   <b-carousel
@@ -60,7 +60,8 @@
                     <b-carousel-item v-for="(item, i) in 4" :key="i">
                       <span class="image is-5by4">
                         <v-lazy-image
-                          alt="Placeholder image"
+                        class="image"
+                          alt="Product Image"
                           :src="
                             `https://i.picsum.photos/id/${product.id +
                               i +
@@ -592,7 +593,6 @@ export default {
               productsToBuy: [{ id: this.product.id, quantity: 1 }],
             },
             component: Payment,
-            canCancel: ['x', 'escape'],
             events: {
               complete: (data) => {
                 this.$router.push(
