@@ -11,7 +11,7 @@
               <div class="media-left">
                 <b-field class="file">
                   <b-upload
-                    accept="jpg,jpeg,png"
+                    accept="image/*"
                     @input="UploadImage"
                     :disabled="profileImage != null"
                     drag-drop
@@ -68,10 +68,10 @@
         <div class="card">
           <div class="card-content">
             <b-field label="First Name">
-              <b-input disabled :value="user.first_name" />
+              <b-input v-model="user.first_name" />
             </b-field>
             <b-field label="Last Name">
-              <b-input disabled :value="user.last_name" />
+              <b-input v-model="user.last_name" />
             </b-field>
             <div class="field">
               <b-field label="Email">
@@ -85,7 +85,7 @@
                     <b-input
                       type="email"
                       required
-                      v-model="new_user.email"
+                      v-model="email1"
                       v-bind:placeholder="
                         !editEmail ? user.email : 'Type your new email'
                       "
@@ -96,6 +96,7 @@
               </b-field>
               <b-field v-if="editEmail">
                 <b-input
+                  v-model="email2"
                   type="email"
                   required
                   placeholder="Confirm your new email"
@@ -103,7 +104,7 @@
               </b-field>
             </div>
 
-            <div class="field">
+            <!-- <div class="field">
               <b-field label="Password">
                 <b-field>
                   <div class="input-field">
@@ -133,13 +134,12 @@
                   type="password"
                 />
               </b-field>
-            </div>
+            </div> -->
           </div>
           <div class="" style="justify-content: center;">
             <div class="card-content">
               <b-field>
                 <b-button
-                  disabled
                   :loading="formLoading"
                   native-type="submit"
                   type="is-primary is-fullwidth"
@@ -167,27 +167,36 @@ export default {
       editEmail: false,
       editPassword: false,
       profileImage: null,
-      new_user: {
-        first_name: '',
-        last_name: '',
-        email: '',
-      },
       formLoading: false,
       percentage: 0,
+      email1: '',
+      email2: '',
     }
+  },
+  created() {
+    this.$store.dispatch('auth/getCurrentUser')
   },
   mounted() {
     this.loading = false
   },
   methods: {
     UpdateEmail() {
-      this.formLoading = true
-      axios
-        .put('api/auth/users/me/', {
-          email: this.email,
+      if (this.email1 != this.email2) {
+        this.$buefy.toast.open({
+          message: 'Emails not match',
+          type: 'is-danger',
         })
+        return
+      }
+      const fromData = {
+        first_name: this.user.first_name,
+        last_name: this.user.last_name,
+      }
+      if (this.email1) fromData.email = this.email1
+      this.formLoading = true
+      this.$store
+        .dispatch('auth/updateProfile', fromData)
         .then(({ data }) => {
-          this.$store.dispatch('auth/setUser', data)
           this.editEmail = false
           this.email = ''
           this.$buefy.toast.open({
@@ -195,14 +204,7 @@ export default {
             type: 'is-success',
           })
         })
-        .catch((err) => {
-          // console.log(err)
-          // this.$buefy.toast.open({
-          //   message: err.response.data.email[0],
-          //   position: 'is-right',
-          //   type: 'is-danger',
-          // })
-        })
+        .catch((err) => err)
         .finally(() => {
           this.formLoading = false
         })

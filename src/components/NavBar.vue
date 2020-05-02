@@ -79,7 +79,7 @@
         }}</span>
         <!-- </router-link> -->
       </b-navbar-item>
-      <b-navbar-dropdown v-if="loggedIn" :label="username">
+      <b-navbar-dropdown v-if="loggedIn" :label="name">
         <b-navbar-item tag="router-link" :to="{ name: 'about' }">
           Profile
         </b-navbar-item>
@@ -115,6 +115,7 @@ export default {
   computed: {
     ...mapGetters({
       loggedIn: 'auth/loggedIn',
+      name: 'auth/getUsernameOrFullName'
     }),
     ...mapState({
       numOfItems: (state) => state.cart.items.length,

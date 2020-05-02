@@ -16,6 +16,9 @@ const Auth = {
     accessToken(state) {
       return state.accessToken
     },
+    getUsernameOrFullName(state) {
+      return state.user.username
+    },
   },
   mutations: {
     updateLocalStorage(state, { access, refresh }) {
@@ -113,11 +116,26 @@ const Auth = {
             ) //percentage loaded
         )
         .then((response) => {
-          if (response.status == 200)
-            context.commit('SET_PROFILE_IMAGE', response.data)
+          context.commit('SET_USER', response.data)
           return response
         })
         .catch((err) => err)
+    },
+    updateProfile(context, data) {
+      return userService
+        .updateUser(data)
+        .then((response) => {
+          console.log(response)
+
+          // context.commit('SET_USER', response.data)
+          return response
+        })
+        .catch((err) => err)
+    },
+    getCurrentUser(context) {
+      return userService.retrieveCurrentUser().then((response) => {
+        context.commit('SET_USER', response.data)
+      })
     },
   },
 }

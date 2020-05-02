@@ -30,8 +30,9 @@
                       v-for="(image, i) in product.images"
                       :key="i"
                     >
-                      <span class="image is-5by4">
+                      <span class="image is-4by3">
                         <v-lazy-image
+                          class="image"
                           alt="Placeholder image"
                           :src="image.image"
                           :src-placeholder="
@@ -63,7 +64,7 @@
                           :src="
                             `https://i.picsum.photos/id/${product.id +
                               i +
-                              10}/300/300.jpg`
+                              10}/1024/1024.jpg`
                           "
                           :src-placeholder="
                             `https://i.picsum.photos/id/${product.id +
@@ -147,7 +148,7 @@
                           <div class="level-item">
                             <b-numberinput
                               min="1"
-                              max="10"
+                              :max="Math.min(product.quantity_avialable, 10)"
                               v-model="qty"
                               type="is-primary"
                               size="is-small"
@@ -225,7 +226,8 @@
                           </div>
                           <div class="level-item">
                             <b-button
-                              disabled
+                              :disabled="true"
+                              ref="buynow"
                               tag="router-link"
                               :to="{
                                 name: 'cart',
