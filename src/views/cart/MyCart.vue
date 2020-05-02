@@ -171,35 +171,10 @@ export default {
         onConfirm: () => this.$store.dispatch('cart/removeFromCart', product),
       })
     },
-    orderCart() {
-      this.isLoading = true
-      this.$store
-        .dispatch('cart/orderCart')
-        .then(() => {
-          this.$router.push('orders/')
-          this.$buefy.notification.open({
-            message: 'Your order has been created',
-            position: 'is-top',
-            type: 'is-success',
-            duration: 5000,
-          })
-        })
-        .catch(() => {
-          this.$buefy.notification.open({
-            message: 'An error occurred',
-            position: 'is-top',
-            type: 'is-danger',
-            duration: 5000,
-          })
-        })
-        .finally(() => {
-          this.isLoading = false
-        })
-    },
     checkOut() {
       this.checkOutLoading = true
       paymentService
-        .checkout()
+        .retrieveNonce()
         .then(({ data }) => {
           this.$router.push({
             name: 'checkout',

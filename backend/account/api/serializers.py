@@ -21,6 +21,21 @@ class PrivateUserSerilizer(serializers.ModelSerializer):
         return user.profile_image.url
 
 
+class PublicUserSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name',
+                  'last_name', 'profile_image']
+        read_only_fields = ['username', 'first_name',
+                            'last_name', 'profile_image']
+
+    def update_profile_image(self, obj):
+        user = self.context.get('request').user
+        user.profile_image = obj['file']
+        user.save()
+        return user.profile_image.url
+
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     def validate(self, attrs):

@@ -2,18 +2,22 @@ import api from '@/services/api'
 
 export default {
   makePayment(nonce, products) {
-    return api
-      .post('payment/checkout/', {
-        payment_method_nonce: nonce,
-        products: products,
-      })
-      .then((response) => response)
-      .catch((error) => error)
+    return new Promise((resolve, reject) => {
+      api
+        .post('payment/checkout/', {
+          payment_method_nonce: nonce,
+          products: products,
+        })
+        .then((response) => resolve(response))
+        .catch((error) => reject(error))
+    })
   },
-  checkout() {
-    return api
-      .get('payment/checkout/new')
-      .then((response) => response)
-      .catch((err) => err)
+  retrieveNonce() {
+    return new Promise((resolve, reject) => {
+      api
+        .get('payment/checkout/new')
+        .then((response) => resolve(response))
+        .catch((error) => reject(error))
+    })
   },
 }

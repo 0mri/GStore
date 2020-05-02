@@ -211,7 +211,7 @@
                               ref="CartBtn"
                               type="is-primary cart-btn"
                             >
-                              <span>Add to cart</span>
+                              <span>Add To Cart</span>
                               <div class="cart">
                                 <svg viewBox="0 0 36 26">
                                   <polyline
@@ -226,14 +226,10 @@
                           </div>
                           <div class="level-item">
                             <b-button
-                              :disabled="true"
+                              :loading="buyLoading"
                               ref="buynow"
-                              tag="router-link"
-                              :to="{
-                                name: 'cart',
-                                params: { singleProduct: product },
-                              }"
-                              type="is-primary is-outlined"
+                              @click="getToken()"
+                              type="is-secondary"
                               >Buy Now</b-button
                             >
                           </div>
@@ -374,17 +370,17 @@
             class="media"
           >
             <figure class="media-left">
-              <p class="image is-48x48">
+              <p class="image">
                 <img
-                  class="is-rounded"
-                  src="@/assets/images/product_image_small.png"
+                  class="is-rounded image is-48x48"
+                  :src="comment.user.profile_image"
                 />
               </p>
             </figure>
             <div class="media-content">
               <div class="content">
                 <p>
-                  <strong>{{ comment.user }}</strong>
+                  <strong>{{ comment.user.username }}</strong>
                   <br />
                   <small>
                     {{ comment.content }}
@@ -433,17 +429,17 @@
                 class="media"
               >
                 <figure class="media-left">
-                  <p class="image is-48x48">
+                  <p class="image">
                     <img
-                      class="is-rounded"
-                      src="@/assets/images/product_image_small.png"
+                      class="is-rounded image is-48x48"
+                      :src="reply.user.profile_image"
                     />
                   </p>
                 </figure>
                 <div class="media-content">
                   <div class="content">
                     <p>
-                      <strong>{{ reply.user }}</strong>
+                      <strong>{{ reply.user.username }}</strong>
                       <br />
                       {{ reply.content }}
                       <br />
@@ -492,8 +488,14 @@
 
 <script>
 import productService from '@/services/productService'
+import paymentService from '@/services/paymentService'
+import Payment from '@/components/Cart/Payment'
+
 export default {
   nema: 'product-detail',
+  components: {
+    Payment,
+  },
   data() {
     return {
       product: {},
@@ -505,12 +507,10 @@ export default {
       reply: '',
       isOpen: '',
       error: null,
+      buyModal: false,
+      buyLoading: false,
+      // token: paymentService.retrieveNonce(),
     }
-  },
-  computed: {
-    // calcQty() {
-    //   this.qty++
-    // },
   },
   created() {
     productService
@@ -579,6 +579,37 @@ export default {
           button.classList.remove('loading')
         }, 2500)
       }
+    },
+    getToken() {
+      this.buyLoading = true
+      paymentService
+        .retrieveNonce()
+        .then(({ data }) => {
+          const paymentModal = this.$buefy.modal.open({
+            parent: this,
+            props: {
+              client_token: data.token,
+              productsToBuy: [{ id: this.product.id, quantity: 1 }],
+            },
+            component: Payment,
+            canCancel: ['x', 'escape'],
+            events: {
+              complete: (data) => {
+                this.$router.push(
+                  {
+                    name: 'checkout-show',
+                    hash: '/#' + data.status,
+                    params: { data: data },
+                  },
+                  paymentModal.close()
+                )
+              },
+            },
+          })
+        })
+        .finally(() => {
+          this.buyLoading = false
+        })
     },
   },
 }

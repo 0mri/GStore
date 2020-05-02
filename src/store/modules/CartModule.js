@@ -43,11 +43,11 @@ const CartModule = {
     removeFromCart(context, product) {
       context.commit('REMOVE_FROM_CART', product)
     },
-    CheckOutCart(context, nonce) {
+    CheckOutCart(context, data) {
       // console.log(context.state.items);
       return new Promise((resolve, reject) => {
         paymentService
-          .makePayment(nonce, context.state.items)
+          .makePayment(data.nonce, data.products)
           .then((response) => {
             resolve(response)
             response.data.status == 'success'

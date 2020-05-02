@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from backend.api.comment.models import Comment
 from django.contrib.humanize.templatetags.humanize import naturaltime
-
+from backend.account.api.serializers import PublicUserSerilizer
 
 # class ReplySerializer(serializers.ModelSerializer):
 #     user = serializers.SlugRelatedField('username', read_only=True)
@@ -17,7 +17,7 @@ from django.contrib.humanize.templatetags.humanize import naturaltime
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    user = serializers.SlugRelatedField('username', read_only=True)
+    user = PublicUserSerilizer(read_only=True)
     created_at = serializers.SerializerMethodField()
     replies = serializers.SerializerMethodField(read_only=True)
 

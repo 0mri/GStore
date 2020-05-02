@@ -1,12 +1,16 @@
 <template>
   <section class="section">
-    <payment :client_token="token"></payment>
+    <payment
+      @complete="(data) => complete(data)"
+      :productsToBuy="cart"
+      :client_token="token"
+    ></payment>
   </section>
 </template>
 
 <script>
 import Payment from '../../components/Cart/Payment'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -20,11 +24,19 @@ export default {
     ...mapGetters({
       loggedIn: 'auth/loggedIn',
     }),
+    ...mapState({
+      cart: (state) => state.cart.items,
+    }),
   },
   created() {
-   if (!this.token) this.$router.push('/cart')
+    if (!this.token) this.$router.push('/cart')
+  },
+  methods: {
+    complete(data) {},
   },
 }
 </script>
 
-<style></style>
+<style>
+
+</style>
