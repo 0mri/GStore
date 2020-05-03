@@ -564,11 +564,8 @@ export default {
           if (data)
             if (parent)
               this.product.comments[index].replies[
-                this.product.comments[index].replies.length - 1
-              ].state = 'success'
-            else
-              this.product.comments[this.product.comments.length - 1].state =
-                'success'
+                this.product.comments[index].replies.length - 1] = data
+            else this.product.comments[this.product.comments.length - 1] = data
         })
         .catch((err) => {
           if (err) {
