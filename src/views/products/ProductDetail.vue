@@ -58,14 +58,14 @@
                     :indicator-inside="false"
                   >
                     <b-carousel-item v-for="(item, i) in 4" :key="i">
-                      <span class="image is-5by4">
+                      <span class="image is-4by3">
                         <v-lazy-image
-                        class="image"
+                          class="image"
                           alt="Product Image"
                           :src="
                             `https://i.picsum.photos/id/${product.id +
                               i +
-                              10}/1024/1024.jpg`
+                              10}/500/500.jpg`
                           "
                           :src-placeholder="
                             `https://i.picsum.photos/id/${product.id +
@@ -368,7 +368,9 @@
             v-else
             v-for="(comment, index) in product.comments"
             :key="comment.id"
-            class="media"
+            v-bind:class="
+              `media ${comment.state == 'error' ? 'has-background-danger' : ''}`
+            "
           >
             <figure class="media-left">
               <p class="image">
@@ -427,7 +429,11 @@
               <article
                 v-for="reply in comment.replies"
                 :key="reply.id"
-                class="media"
+                v-bind:class="
+                  `media ${
+                    reply.state == 'error' ? 'has-background-danger' : ''
+                  }`
+                "
               >
                 <figure class="media-left">
                   <p class="image">
@@ -491,11 +497,16 @@
 import productService from '@/services/productService'
 import paymentService from '@/services/paymentService'
 import Payment from '@/components/Cart/Payment'
-
+import { mapState } from 'vuex'
 export default {
   nema: 'product-detail',
   components: {
     Payment,
+  },
+  computed: {
+    ...mapState({
+      user: (state) => state.auth.user,
+    }),
   },
   data() {
     return {
@@ -530,22 +541,47 @@ export default {
     setFocus() {
       this.$refs.comment.$el.children[0].focus()
     },
-    PostComment(parent, conent, index) {
-      if (conent == '') return
+    PostComment(parent, content, index) {
+      if (content == '') return
+      this.comment = ''
+      this.reply = ''
       const comment = {
         parent: parent,
         product: this.product.id,
-        content: conent,
+        content: content,
+        user: {
+          profile_image: this.user.profile_image,
+          username: this.user.username,
+        },
+        created_at: 'now',
+        state: 'loading',
       }
+      if (parent) this.product.comments[index].replies.push(comment)
+      else this.product.comments.push(comment)
       productService
         .commentProduct(comment)
         .then(({ data }) => {
-          if (parent) this.product.comments[index].replies.push(data)
-          else this.product.comments.push(data)
+          if (data)
+            if (parent)
+              this.product.comments[index].replies[
+                this.product.comments[index].replies.length - 1
+              ].state = 'success'
+            else
+              this.product.comments[this.product.comments.length - 1].state =
+                'success'
+        })
+        .catch((err) => {
+          if (err) {
+            if (parent)
+              this.product.comments[index].replies[
+                this.product.comments[index].replies.length - 1
+              ].state = 'error'
+            else
+              this.product.comments[this.product.comments.length - 1].state =
+                'error'
+          }
         })
         .finally(() => {
-          this.comment = ''
-          this.reply = ''
           this.isOpen = false
         })
     },

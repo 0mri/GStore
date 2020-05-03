@@ -21,8 +21,6 @@ urlpatterns = [
     # http://localhost:8000/api/<router-viewsets>
     path('api/', include('backend.api.urls')),
 
-    path('api/account/', include('backend.account.api.urls')),
-
     # http://localhost:8000/api/admin/
     path('api/admin/', admin.site.urls),
 ]
