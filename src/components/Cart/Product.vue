@@ -13,6 +13,7 @@
           <div class="card-image">
             <figure class="image is-4by3">
               <v-lazy-image
+                class="image"
                 alt="Placeholder image"
                 style="border-radius: 6px 6px 0px 0px;"
                 :src="
