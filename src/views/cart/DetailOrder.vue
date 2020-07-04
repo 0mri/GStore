@@ -46,7 +46,7 @@
               <v-lazy-image
                 alt="Placeholder image"
                 :src="
-                  `https://i.picsum.photos/id/${props.row.product.id +
+                  `https://picsum.photos/id/${props.row.product.id +
                     10}/128/128.jpg`
                 "
               />

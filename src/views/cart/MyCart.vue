@@ -11,11 +11,11 @@
                     <v-lazy-image
                       alt="Placeholder image"
                       :src-placeholder="
-                        `https://i.picsum.photos/id/${product.id +
+                        `https://picsum.photos/id/${product.id +
                           10}/10/10.jpg`
                       "
                       :src="
-                        `https://i.picsum.photos/id/${product.id +
+                        `https://picsum.photos/id/${product.id +
                           10}/500/500.jpg`
                       "
                     />

@@ -17,10 +17,10 @@
                 style="border-radius: 6px 6px 0px 0px;"
                 :src="
                   product.image.image ||
-                    `https://i.picsum.photos/id/${product.id + 10}/600/400.jpg`
+                    `https://picsum.photos/id/${product.id + 10}/600/400.jpg`
                 "
                 :src-placeholder="
-                  `https://i.picsum.photos/id/${product.id + 10}/60/40.jpg`
+                  `https://picsum.photos/id/${product.id + 10}/60/40.jpg`
                 "
               />
               <!-- <v-lazy-image

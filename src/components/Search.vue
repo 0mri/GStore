@@ -27,7 +27,7 @@
           <div class="media-left">
             <v-lazy-image
               :src="
-                `https://i.picsum.photos/id/${props.option.id + 10}/32/32.jpg`
+                `https://picsum.photos/id/${props.option.id + 10}/32/32.jpg`
               "
               src-placeholcer=""
             />

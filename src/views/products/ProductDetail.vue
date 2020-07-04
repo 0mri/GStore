@@ -36,7 +36,7 @@
                           alt="Product Image"
                           :src="image.image"
                           :src-placeholder="
-                            `https://i.picsum.photos/id/${product.id +
+                            `https://picsum.photos/id/${product.id +
                               i +
                               10}/10/10.jpg`
                           "
@@ -63,12 +63,12 @@
                           class="image"
                           alt="Product Image"
                           :src="
-                            `https://i.picsum.photos/id/${product.id +
+                            `https://picsum.photos/id/${product.id +
                               i +
                               10}/500/500.jpg`
                           "
                           :src-placeholder="
-                            `https://i.picsum.photos/id/${product.id +
+                            `https://picsum.photos/id/${product.id +
                               i +
                               10}/20/20.jpg`
                           "
