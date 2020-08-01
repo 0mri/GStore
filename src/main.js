@@ -128,6 +128,7 @@ api.interceptors.response.use(undefined, async (error) => {
 })
 
 new Vue({
+  scrollBehavior (to, from, savedPosition) { return {x: 0, y: 0} },
   router,
   store,
   render: (h) => h(App),

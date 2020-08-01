@@ -1,0 +1,12 @@
+#CREATE CATEGORIES
+from backend.api.product.models import Category
+from lorem.text import TextLorem
+
+for i in range(0,10):
+	lorem = TextLorem(srange=(2,5))
+	length = int(len(lorem.sentence()))
+	p_name = lorem.sentence()[:(length-1)]
+	try: 
+		Category.objects.create(name=p_name)
+	except:
+		pass
